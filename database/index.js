@@ -1,1 +1,2 @@
-//BOILERPLATE FOR DB CONNECTION
+"use strict";
+
