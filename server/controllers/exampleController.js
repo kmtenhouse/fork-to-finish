@@ -14,5 +14,10 @@ module.exports = {
         Example.createExample( { text: req.body.text } )
             .then(result => res.json(result))
             .catch(err => res.status(400).json(err));
-    }   
+    },
+    delete: function(req, res) {
+        Example.deleteOne(req.params.id)
+            .then(result => res.json(result))
+            .catch(err=> (err.message === "Not Found" ? res.sendStatus(404): res.sendStatus(400) ) );
+    }
 }
