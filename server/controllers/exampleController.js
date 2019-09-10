@@ -1,23 +1,22 @@
 const Example = require("../services/exampleService");
 
 module.exports = {
-    findAll: function(req, res) {
+    findAll: function (req, res) {
         Example.findAllExamples()
-            .then( results =>res.json(results))
-            .catch(err => res.status(400).json(err));
+            .then(results => res.json(results))
+            .catch(err => res.status(400).json({ error: err.message }));
     },
-    create: function(req, res) {
-        if(!req.body.text || !typeof req.body.text === "String")
-        {
-            return res.json(new Error("Must provide text for the example object!"));
-        }
-        Example.createExample( { text: req.body.text } )
+    create: function (req, res) {
+        Example.createOne({ text: req.body.text })
             .then(result => res.json(result))
-            .catch(err => res.status(400).json(err));
+            .catch(err => res.status(400).json({ error: err.message }));
     },
-    delete: function(req, res) {
+    delete: function (req, res) {
         Example.deleteOne(req.params.id)
             .then(result => res.json(result))
-            .catch(err=> (err.message === "Not Found" ? res.sendStatus(404): res.sendStatus(400) ) );
+            .catch(err => {
+                (err.message === "Not Found" ? res.status(404) : res.status(400));
+                res.json({ error: err.message });
+            });
     }
 }
