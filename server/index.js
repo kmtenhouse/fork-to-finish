@@ -2,7 +2,8 @@
 
 const express = require("express"),
   bodyParser = require("body-parser"),
-  morgan = require("morgan");
+  morgan = require("morgan"),
+  cors = require("cors");
 
 module.exports = function() {
   let server = express(),
@@ -30,7 +31,7 @@ module.exports = function() {
     server.use(morgan("dev"));
 
     // Set up CORS here
-
+    server.use(cors());
     // Set up routes
     // ====== Routing ======
     server.use(routes);
