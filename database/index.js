@@ -9,7 +9,9 @@ module.exports = function () {
         const { databaseRef } = config;
         // Use bluebird
         mongoose.Promise = bluebird;
-        return mongoose.connect(databaseRef, { useNewUrlParser: true });
+        return mongoose.connect(databaseRef,
+            { useNewUrlParser: true, useUnifiedTopology: true }
+        );
     }
 
     return {

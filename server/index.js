@@ -1,48 +1,70 @@
 "use strict";
 
-const express = require("express"),
+const http = require("http"),
+  express = require("express"),
   bodyParser = require("body-parser"),
   morgan = require("morgan"),
-  cors = require("cors");
+  /*   cors = require("cors"), */
+  xssFilter = require('x-xss-protection'),
+  helmet = require("helmet");
 
-module.exports = function() {
-  let server = express(),
+module.exports = function () {
+  let app = express(),
+    server,
     create,
     start;
 
-  create = function(config) {
+  create = function (config) {
     let routes = require("./routes");
 
-    // Server settings
-    server.set("env", config.env);
-    server.set("port", config.port);
-    server.set("hostname", config.hostname);
-    server.set("staticDir", config.staticDir);
+    // Settings
+    app.set("env", config.env);
+    app.set("port", config.port);
+    app.set("hostname", config.hostname);
+    app.set("staticDir", config.staticDir);
+   
+    // Set up helmet middleware
+
+    // Ensure we only access the application via https in production:
+    if (app.get("env") === "production") {
+      app.use(helmet.hsts());
+    }
+
+    // Prevent the app from being loaded in iframes (for certain browsers)
+    app.use(helmet.frameguard());
+
+    // Help browsers prevent page load on reflected xss attacks
+    app.use(xssFilter());
 
     // Returns middleware that parses json
-    server.use(
+    app.use(
       bodyParser.urlencoded({
-        extended: false
+        extended: true
       })
     );
-    server.use(bodyParser.json());
+    app.use(bodyParser.json());
 
     //Logging (for dev)
-    server.use(morgan("dev"));
+    app.use(morgan("dev"));
 
     // Set up CORS here
-    server.use(cors());
+    //app.use(cors());
+
     // Set up routes
     // ====== Routing ======
-    server.use(routes);
+    app.use(routes);
+
+    // Create a separate server for our app
+    server = http.createServer(app);
   };
 
-  start = function() {
-    let hostname = server.get("hostname"),
-      port = server.get("port");
+  // Method that starts the http server itself:
+  start = function () {
+    const hostname = app.get("hostname");
+    const PORT = app.get("port");
 
-    server.listen(port, function() {
-      console.log(`App listening on http://${hostname}:${port}`);
+    server.listen(PORT, function () {
+      console.log(`App listening on https://${hostname}:${PORT}`);
     });
   };
 
