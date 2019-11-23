@@ -1,7 +1,6 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { ExampleList, ExampleItem } from './components/Example';
+import { ExampleList } from './components/Example';
 
 function App() {
   return (

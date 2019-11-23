@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 export class ExampleList extends React.Component {
     constructor(props) {
@@ -10,6 +11,13 @@ export class ExampleList extends React.Component {
 
     componentDidMount() {
         //call our API and get a list of examples, then display them
+        console.log("Mounted!");
+        axios.get("http://localhost:3001/api/examples")
+            .then(results => {
+                console.log(results);
+                this.setState({ examples: results.data })
+            })
+            .catch(err => console.log(err));
     }
 
     render() {
