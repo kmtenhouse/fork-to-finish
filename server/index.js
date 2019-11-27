@@ -4,8 +4,8 @@ const http = require("http"),
   express = require("express"),
   bodyParser = require("body-parser"),
   morgan = require("morgan"),
+  csp = require("helmet-csp"),
   /*   cors = require("cors"), */
-  xssFilter = require('x-xss-protection'),
   helmet = require("helmet");
 
 module.exports = function () {
@@ -21,20 +21,42 @@ module.exports = function () {
     app.set("env", config.env);
     app.set("port", config.port);
     app.set("hostname", config.hostname);
-    app.set("staticDir", config.staticDir);
-   
-    // Set up helmet middleware
 
+    // Set up helmet middleware
     // Ensure we only access the application via https in production:
     if (app.get("env") === "production") {
       app.use(helmet.hsts());
     }
 
-    // Prevent the app from being loaded in iframes (for certain browsers)
+    // Prevent the app from being loaded in iframes (for clickjacking)
     app.use(helmet.frameguard());
 
+    // Prevent browser from changing MIME types specified in Content-Type header
+    app.use(helmet.noSniff());
+
     // Help browsers prevent page load on reflected xss attacks
-    app.use(xssFilter());
+    app.use(helmet.xssFilter());
+
+    // Sets "X-Download-Options: noopen".
+    app.use(helmet.ieNoOpen());
+
+    // Sets "X-DNS-Prefetch-Control: off".
+    app.use(helmet.dnsPrefetchControl());
+
+    // Don't advertise what framework we are using
+    app.disable('x-powered-by');
+
+    // Set up content-security-policy
+    // For more information: https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html
+    app.use(csp({
+      directives: {
+        defaultSrc: ["'self'"],  // default value for all directives that are absent
+        scriptSrc: ["'self'"],   // helps prevent XSS attacks
+        frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
+        imgSrc: ["'self'"],
+        styleSrc: ["'none'"]
+      }
+    }));
 
     // Returns middleware that parses json
     app.use(
@@ -43,6 +65,11 @@ module.exports = function () {
       })
     );
     app.use(bodyParser.json());
+
+    // Set up static dir (if applicable) 
+    if (config.staticDir) {
+      app.use(express.static(config.staticDir));
+    }
 
     //Logging (for dev)
     app.use(morgan("dev"));
