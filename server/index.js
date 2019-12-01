@@ -5,6 +5,7 @@ const http = require("http"),
   bodyParser = require("body-parser"),
   morgan = require("morgan"),
   csp = require("helmet-csp"),
+  session = require("express-session"),
   /*   cors = require("cors"), */
   helmet = require("helmet");
 
@@ -13,6 +14,8 @@ module.exports = function () {
     server,
     create,
     start;
+
+  const auth = require("./auth/")();
 
   create = function (config) {
     let routes = require("./routes");
@@ -58,24 +61,47 @@ module.exports = function () {
       }
     }));
 
-    // Returns middleware that parses json
-    app.use(
-      bodyParser.urlencoded({
-        extended: true
-      })
-    );
-    app.use(bodyParser.json());
-
     // Set up static dir (if applicable) 
     if (config.staticDir) {
       app.use(express.static(config.staticDir));
     }
+
+    const sess = session(
+      {
+        secret: config.cookie_secret,
+        resave: false,
+        saveUninitialized: true
+      }
+    ); 
+
+    if (app.get('env') === 'production') {
+      app.set('trust proxy', 1) // trust first proxy
+      sess.cookie.secure = true // serve secure cookies
+    }
+
+    app.use(sess);
+
+    // Returns middleware that parses json
+    app.use(
+      bodyParser.urlencoded({
+        extended: false
+      })
+    );
+
+    app.use(bodyParser.json());
 
     //Logging (for dev)
     app.use(morgan("dev"));
 
     // Set up CORS here
     //app.use(cors());
+
+    // Set up session
+
+    // Set up auth strategies
+    const passport = auth.initialize(config);
+    app.use(passport.initialize());
+    app.use(passport.session());
 
     // Set up routes
     // ====== Routing ======
@@ -91,7 +117,7 @@ module.exports = function () {
     const PORT = app.get("port");
 
     server.listen(PORT, function () {
-      console.log(`App listening on https://${hostname}:${PORT}`);
+      console.log(`App listening on ${hostname}:${PORT}`);
     });
   };
 

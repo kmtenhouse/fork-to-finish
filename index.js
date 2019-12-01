@@ -6,4 +6,4 @@ const server = require("./server")(),
 
 database.connect(config);
 server.create(config);
-server.start();
+server.start(); 
