@@ -31,10 +31,13 @@
     "concurrently": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "helmet": "^3.21.2",
     "helmet-csp": "^2.9.4",
     "mongoose": "^5.7.12",
     "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^2.0.0",
     "x-xss-protection": "^1.3.0"
   },
   "devDependencies": {
