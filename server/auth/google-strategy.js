@@ -11,7 +11,7 @@ module.exports = function (config) {
     callbackURL: "/auth/google/callback"
   },
     function (accessToken, refreshToken, profile, done) {
-      return (done(err, { id: 1 }));
+      return (done(null, { id: 1, collide: true }));
       /* User.findOrCreate({ googleId: profile.id }, function (err, user) {
         return done(err, user);
       }); */

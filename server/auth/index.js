@@ -7,25 +7,37 @@ const indexFile = path.basename(module.filename);
 
 
 module.exports = function () {
-    const passport = require("passport"); 
-    
+    const passport = require("passport");
+
     const initialize = function (config) {
         try {
-        fs
-            .readdirSync(__dirname)
-            .filter(function (file) {
-                return (file.indexOf('.') !== 0) && (file !== indexFile) && (file.slice(-3) === '.js');
-            })
-            .forEach(function (file) {
-                const fullPath = path.join(__dirname, file);
-                const currentStrategy = require(fullPath)(config);
-                passport.use(currentStrategy);
-            });
+            fs
+                .readdirSync(__dirname)
+                .filter(function (file) {
+                    return (file.indexOf('.') !== 0) && (file !== indexFile) && (file.slice(-3) === '.js');
+                })
+                .forEach(function (file) {
+                    const fullPath = path.join(__dirname, file);
+                    const currentStrategy = require(fullPath)(config);
+                    passport.use(currentStrategy);
+                });
         }
-        catch(err) {
+        catch (err) {
             err.message = "Auth initialization failed! " + err.message;
             throw err;
         }
+
+        // Set up our serialization options for passport
+        passport.serializeUser(function (user, done) {
+            done(null, user.id);
+        });
+
+        passport.deserializeUser(function (id, done) {
+            done(null, {id: 1, serialized: true});
+         /*    User.findById(id, function (err, user) {
+                done(err, user);
+            }); */
+        });
 
         return passport;
     }
