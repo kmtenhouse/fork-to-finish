@@ -8,7 +8,7 @@ const authRoutes = require("./auth");
 //MAIN ROUTES
 //healthcheck route
 router.get("/", (req, res) => {
-  console.log("Hitting slash with user ", req.user);
+  console.log("Hitting slash with ", req.user || " no user logged in");
   res.send("Slash route");
 });
 

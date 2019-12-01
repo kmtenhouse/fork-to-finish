@@ -20,15 +20,15 @@ module.exports = function (config) {
 
         //find the first verified email
         const verifiedEmails = profile.emails.filter(email => email.verified);
-        if(verifiedEmails.length===0) {
+        if(verifiedEmails.length===0 || !verifiedEmails[0].value) {
           throw new Error("No verified emails received from google!");
         }
 
         const currentUser = await User.findOrCreateViaEmail({ googleId: profile.id, email: verifiedEmails[0].value });
-        return done(null, { id: currentUser._id });
+        done(null, currentUser);
       }
       catch(err) {
-        return done(err, null);
+        done(err, null);
       }
     }
   );

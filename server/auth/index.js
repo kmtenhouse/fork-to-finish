@@ -36,7 +36,7 @@ module.exports = function () {
             try {
                 const currentUser = await User.findById(id);
                 if(!currentUser) {
-                    return done(new Error("User not found"), null);
+                    throw new Error("User not found");
                 }
                 done(null, currentUser);
             } catch (err) {
