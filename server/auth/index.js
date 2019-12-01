@@ -40,6 +40,7 @@ module.exports = function () {
                 }
                 done(null, currentUser);
             } catch (err) {
+                console.log("Caught error!");
                 return done(err, null);
             }
         });

@@ -72,7 +72,7 @@ module.exports = function () {
         resave: false,
         saveUninitialized: true
       }
-    ); 
+    );
 
     if (app.get('env') === 'production') {
       app.set('trust proxy', 1) // trust first proxy
@@ -96,12 +96,21 @@ module.exports = function () {
     // Set up CORS here
     //app.use(cors());
 
-    // Set up session
-
     // Set up auth strategies
     const passport = auth.initialize(config);
     app.use(passport.initialize());
     app.use(passport.session());
+
+    // Add error handling middleware for auth issues
+    app.use((err, req, res, next) => {
+      if (err) {
+        req.logout(); // If an error occurs, ensure we clean up by loggin folks out first so that deserialization won't keep failing
+        // (TO-DO): Ensure this issue is logged properly
+        next(); // Default behavior: attempt to continue flow (could instead be a custom render of a login page with a warning)
+      } else {
+        next();
+      }
+    });
 
     // Set up routes
     // ====== Routing ======
