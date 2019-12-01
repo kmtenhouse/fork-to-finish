@@ -4,7 +4,7 @@ const fs = require("fs"),
     path = require("path");
 
 const indexFile = path.basename(module.filename);
-
+const User = require("../services/userService");
 
 module.exports = function () {
     const passport = require("passport");
@@ -32,11 +32,16 @@ module.exports = function () {
             done(null, user.id);
         });
 
-        passport.deserializeUser(function (id, done) {
-            done(null, {id: 1, serialized: true});
-         /*    User.findById(id, function (err, user) {
-                done(err, user);
-            }); */
+        passport.deserializeUser(async function (id, done) {
+            try {
+                const currentUser = await User.findById(id);
+                if(!currentUser) {
+                    return done(new Error("User not found"), null);
+                }
+                done(null, currentUser);
+            } catch (err) {
+                return done(err, null);
+            }
         });
 
         return passport;

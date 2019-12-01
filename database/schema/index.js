@@ -1,5 +1,7 @@
-const Empire = require ("./Example");
+const Example = require ("./Example");
+const User = require ("./User");
 
 module.exports = {
-    Example: Example
+    Example: Example, 
+    User: User
 }

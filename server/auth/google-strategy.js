@@ -1,4 +1,5 @@
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+const User = require("../services/userService");
 
 module.exports = function (config) {
   if (!config.google_client_id || !config.google_client_secret) {
@@ -10,11 +11,25 @@ module.exports = function (config) {
     clientSecret: config.google_client_secret,
     callbackURL: "/auth/google/callback"
   },
-    function (accessToken, refreshToken, profile, done) {
-      return (done(null, { id: 1, collide: true }));
-      /* User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return done(err, user);
-      }); */
+    async function (accessToken, refreshToken, profile, done) {
+      try {
+        //find the first verified email
+        if(!Array.isArray(profile.emails) || profile.emails.length === 0) {
+          throw new Error("No emails received from google!");
+        }
+
+        //find the first verified email
+        const verifiedEmails = profile.emails.filter(email => email.verified);
+        if(verifiedEmails.length===0) {
+          throw new Error("No verified emails received from google!");
+        }
+
+        const currentUser = await User.findOrCreateViaEmail({ googleId: profile.id, email: verifiedEmails[0].value });
+        return done(null, { id: currentUser._id });
+      }
+      catch(err) {
+        return done(err, null);
+      }
     }
   );
 

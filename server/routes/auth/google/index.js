@@ -6,10 +6,10 @@ const passport = require("passport");
 //MAIN ROUTES
 //healthcheck route
 router.get('/',
-    passport.authenticate('google', { scope: 'profile' }));
+    passport.authenticate('google', { scope: 'openid profile email' }));
 
 router.get('/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
+    passport.authenticate('google', { failureRedirect: '/login' }),
     function (req, res) {
         console.log("Logged in");
         res.redirect('/');
