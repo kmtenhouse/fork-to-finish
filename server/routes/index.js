@@ -8,6 +8,7 @@ const authRoutes = require("./auth");
 //MAIN ROUTES
 //healthcheck route
 router.get("/", (req, res) => {
+  console.log(`${req.user ? req.user.email : 'No one'} is logged in!`)
   res.send("Slash route");
 });
 
