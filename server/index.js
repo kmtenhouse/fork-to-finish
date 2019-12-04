@@ -8,7 +8,8 @@ const http = require("http"),
   session = require("express-session"),
   toobusy = require("toobusy-js"),
   helmet = require("helmet"),
-  hpp = require("hpp");
+  hpp = require("hpp"),
+  rawBody = require("raw-body");
 
 module.exports = function () {
   let app = express(),
@@ -83,19 +84,16 @@ module.exports = function () {
     app.use(sess);
 
     // Set request size limits
-    app.use(express.urlencoded({ limit: "1kb" }));
-    app.use(express.json({ limit: "1kb" }));
-    app.use(express.multipart({ limit: "10mb" }));
-    app.use(express.limit("5kb"));
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: false, limit: "1kb" }))
+    // parse application/json
+    app.use(bodyParser.json({ limit: "1kb" }))
 
     // Avoid parameter pollution attacks
     app.use(hpp());
 
     //Logging (for dev)
     app.use(morgan("dev"));
-
-    // Set up CORS here
-    //app.use(cors());
 
     // Set up auth strategies
     const passport = auth.initialize(config);
@@ -104,15 +102,21 @@ module.exports = function () {
 
     // Add error handling middleware for auth issues
     app.use((err, req, res, next) => {
+      console.log("Error Handler");
       if (err) {
         req.logout(); // If an error occurs, ensure we clean up by loggin folks out first so that deserialization won't keep failing
         // (TO-DO): Ensure this issue is logged properly
-        res.flash("error", err.message);
         res.redirect("/"); //
-      } else if (toobusy()) {
-        res.send(503, "Server Too Busy");
-      }
+      } 
       else {
+        next();
+      }
+    });
+
+    app.use((req, res, next) => {
+      if (toobusy()) {
+        return res.sendStatus(503);
+      } else {
         next();
       }
     });
@@ -120,6 +124,9 @@ module.exports = function () {
     // Set up routes
     // ====== Routing ======
     app.use(routes);
+
+    //Catch-all 404
+    app.use("*", (req, res) => { res.sendStatus(404) });
 
     // Create a separate server for our app
     server = http.createServer(app);
