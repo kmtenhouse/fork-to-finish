@@ -29,12 +29,10 @@ module.exports = function () {
 
         // Set up our serialization options for passport
         passport.serializeUser(function (user, done) {
-            console.log("Serializing");
             done(null, user.id);
         });
 
         passport.deserializeUser(async function (id, done) {
-            console.log("Deserializing:");
             try {
                 const currentUser = await User.findById(id);
                 if(!currentUser) {
@@ -42,8 +40,6 @@ module.exports = function () {
                 }
                 done(null, currentUser);
             } catch (err) {
-                console.log("Caught deserialization error!");
-                console.log(err.message);
                 return done(err, null);
             }
         });

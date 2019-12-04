@@ -6,8 +6,8 @@ const exampleRoutes = require("./examples");
 //MAIN ROUTES
 //healthcheck route
 router.get("/", (req, res) => {
-    res.send("API ROUTES");
-  });
+  res.send("API ROUTES");
+});
 
 router.use("/examples", exampleRoutes);
 

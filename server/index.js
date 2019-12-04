@@ -100,22 +100,20 @@ module.exports = function () {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // Add error handling middleware for auth issues
-    app.use((err, req, res, next) => {
-      console.log("Error Handler");
-      if (err) {
-        req.logout(); // If an error occurs, ensure we clean up by loggin folks out first so that deserialization won't keep failing
-        // (TO-DO): Ensure this issue is logged properly
-        res.redirect("/"); //
-      } 
-      else {
+    // Standard middleware to check if the server is too busy before continuing with requests
+    app.use((req, res, next) => {
+      if (toobusy()) {
+        return res.sendStatus(503);
+      } else {
         next();
       }
     });
 
-    app.use((req, res, next) => {
-      if (toobusy()) {
-        return res.sendStatus(503);
+    // Add error handling middleware for auth issues (serialization / deserialization)
+    app.use((err, req, res, next) => {
+      if (err) {
+        req.logout(); // Ensure we clean up by logging folks out first so that deserialization won't keep failing
+        res.redirect("/"); // Could redirect the user to a login page (if we had one) and have them log in again
       } else {
         next();
       }
@@ -125,8 +123,14 @@ module.exports = function () {
     // ====== Routing ======
     app.use(routes);
 
-    //Catch-all 404
+    // Catch-all 404
     app.use("*", (req, res) => { res.sendStatus(404) });
+
+    // Lastly, here's a catch-all for any errors in routes that might have slipped by without us noticing 
+    app.use((err, req, res, next) => {
+      // (To-do) Log the error itself
+      res.sendStatus(500);
+    });
 
     // Create a separate server for our app
     server = http.createServer(app);

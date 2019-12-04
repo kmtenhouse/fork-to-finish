@@ -29,7 +29,7 @@ module.exports = function (config) {
       }
       catch(err) {
         //log error here
-        done(null, null);
+        done(err, null);
       }
     }
   );
