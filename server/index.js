@@ -6,8 +6,10 @@ const http = require("http"),
   morgan = require("morgan"),
   csp = require("helmet-csp"),
   session = require("express-session"),
-  /*   cors = require("cors"), */
-  helmet = require("helmet");
+  toobusy = require("toobusy-js"),
+  helmet = require("helmet"),
+  hpp = require("hpp"),
+  rawBody = require("raw-body");
 
 module.exports = function () {
   let app = express(),
@@ -81,32 +83,37 @@ module.exports = function () {
 
     app.use(sess);
 
-    // Returns middleware that parses json
-    app.use(
-      bodyParser.urlencoded({
-        extended: false
-      })
-    );
+    // Set request size limits
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: false, limit: "1kb" }))
+    // parse application/json
+    app.use(bodyParser.json({ limit: "1kb" }))
 
-    app.use(bodyParser.json());
+    // Avoid parameter pollution attacks
+    app.use(hpp());
 
     //Logging (for dev)
     app.use(morgan("dev"));
-
-    // Set up CORS here
-    //app.use(cors());
 
     // Set up auth strategies
     const passport = auth.initialize(config);
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // Add error handling middleware for auth issues
+    // Standard middleware to check if the server is too busy before continuing with requests
+    app.use((req, res, next) => {
+      if (toobusy()) {
+        return res.sendStatus(503);
+      } else {
+        next();
+      }
+    });
+
+    // Add error handling middleware for auth issues (serialization / deserialization)
     app.use((err, req, res, next) => {
       if (err) {
-        req.logout(); // If an error occurs, ensure we clean up by loggin folks out first so that deserialization won't keep failing
-        // (TO-DO): Ensure this issue is logged properly
-        next(); // Default behavior: attempt to continue flow (could instead be a custom render of a login page with a warning)
+        req.logout(); // Ensure we clean up by logging folks out first so that deserialization won't keep failing
+        res.redirect("/"); // Could redirect the user to a login page (if we had one) and have them log in again
       } else {
         next();
       }
@@ -115,6 +122,15 @@ module.exports = function () {
     // Set up routes
     // ====== Routing ======
     app.use(routes);
+
+    // Catch-all 404
+    app.use("*", (req, res) => { res.sendStatus(404) });
+
+    // Lastly, here's a catch-all for any errors in routes that might have slipped by without us noticing 
+    app.use((err, req, res, next) => {
+      // (To-do) Log the error itself
+      res.sendStatus(500);
+    });
 
     // Create a separate server for our app
     server = http.createServer(app);
