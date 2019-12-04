@@ -28,7 +28,8 @@ module.exports = function (config) {
         done(null, currentUser);
       }
       catch(err) {
-        done(err, null);
+        //log error here
+        done(null, null);
       }
     }
   );

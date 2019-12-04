@@ -2,9 +2,9 @@
 
 const mongoose = require("mongoose"),
     bluebird = require("bluebird");
-let connect;
 
 module.exports = function () {
+    let connect;
     connect = (config) => {
         const { databaseRef } = config;
         // Use bluebird

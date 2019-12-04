@@ -6,8 +6,9 @@ const http = require("http"),
   morgan = require("morgan"),
   csp = require("helmet-csp"),
   session = require("express-session"),
-  /*   cors = require("cors"), */
-  helmet = require("helmet");
+  toobusy = require("toobusy-js"),
+  helmet = require("helmet"),
+  hpp = require("hpp");
 
 module.exports = function () {
   let app = express(),
@@ -81,14 +82,14 @@ module.exports = function () {
 
     app.use(sess);
 
-    // Returns middleware that parses json
-    app.use(
-      bodyParser.urlencoded({
-        extended: false
-      })
-    );
+    // Set request size limits
+    app.use(express.urlencoded({ limit: "1kb" }));
+    app.use(express.json({ limit: "1kb" }));
+    app.use(express.multipart({ limit: "10mb" }));
+    app.use(express.limit("5kb"));
 
-    app.use(bodyParser.json());
+    // Avoid parameter pollution attacks
+    app.use(hpp());
 
     //Logging (for dev)
     app.use(morgan("dev"));
@@ -106,8 +107,12 @@ module.exports = function () {
       if (err) {
         req.logout(); // If an error occurs, ensure we clean up by loggin folks out first so that deserialization won't keep failing
         // (TO-DO): Ensure this issue is logged properly
-        next(); // Default behavior: attempt to continue flow (could instead be a custom render of a login page with a warning)
-      } else {
+        res.flash("error", err.message);
+        res.redirect("/"); //
+      } else if (toobusy()) {
+        res.send(503, "Server Too Busy");
+      }
+      else {
         next();
       }
     });
