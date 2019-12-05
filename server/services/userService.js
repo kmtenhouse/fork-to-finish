@@ -11,22 +11,18 @@ function createOne(obj) {
     return User.create(obj);
 }
 
-async function findOrCreateViaEmail(obj, cb) {
+async function findOrCreateViaGoogleId(obj, cb) {
     try {
-        if (!obj.email) {
-            throw new ServiceError("Must provide an email!", 400);
+        if (!obj.googleId) {
+            throw new ServiceError("Must provide a valid google id!", 400);
         }
 
         // Attempt to look up the current user
-        let currentUser = await User.findOne({ email: obj.email });
+        let currentUser = await User.findOne({ googleId: obj.googleId });
 
         // If we don't find them: attempt to create them!
         if (!currentUser) {
-            const newUser = { email: obj.email };
-            if (obj.googleId) {
-                newUser["googleId"] = obj.googleId;
-            }
-            currentUser = await User.create(newUser);
+            currentUser = await User.create({ googleId: obj.googleId });
         }
         
         cb(null, currentUser);
@@ -40,5 +36,5 @@ async function findOrCreateViaEmail(obj, cb) {
 module.exports = {
     findById,
     createOne,
-    findOrCreateViaEmail: Promise.promisify(findOrCreateViaEmail)
+    findOrCreateViaGoogleId: Promise.promisify(findOrCreateViaGoogleId)
 };

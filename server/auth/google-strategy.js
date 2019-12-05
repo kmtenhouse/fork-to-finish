@@ -13,18 +13,7 @@ module.exports = function (config) {
   },
     async function (accessToken, refreshToken, profile, done) {
       try {
-        //find the first verified email
-        if(!Array.isArray(profile.emails) || profile.emails.length === 0) {
-          throw new Error("No emails received from google!");
-        }
-
-        //find the first verified email
-        const verifiedEmails = profile.emails.filter(email => email.verified);
-        if(verifiedEmails.length===0 || !verifiedEmails[0].value) {
-          throw new Error("No verified emails received from google!");
-        }
-
-        const currentUser = await User.findOrCreateViaEmail({ googleId: profile.id, email: verifiedEmails[0].value });
+        const currentUser = await User.findOrCreateViaGoogleId({ googleId: profile.id });
         done(null, currentUser);
       }
       catch(err) {

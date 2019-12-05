@@ -14,6 +14,10 @@ router.get("/logout", (req, res) => {
   res.redirect('/');
 });
 
+router.get("/whoami", (req, res) => {
+  res.json(req.user || { loggedIn: false});
+})
+
 router.use("/google", googleRoutes);
 
 module.exports = router;
