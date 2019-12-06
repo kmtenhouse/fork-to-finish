@@ -59,10 +59,11 @@ module.exports = function () {
     app.use(csp({
       directives: {
         defaultSrc: ["'self'"],  // default value for all directives that are absent
-        scriptSrc: ["'self'", 'cdnjs.cloudflare.com'],   // helps prevent XSS attacks
+        scriptSrc: ["'self'", 'cdnjs.cloudflare.com', 'code.jquery.com'],   // helps prevent XSS attacks
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
         imgSrc: ["'self'"],
-        styleSrc: ["'self'", 'cdnjs.cloudflare.com']
+        styleSrc: ["'self'", 'cdnjs.cloudflare.com', 'fonts.googleapis.com'],
+        fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com']
       }
     }));
 
@@ -104,20 +105,19 @@ module.exports = function () {
     app.use(passport.session());
 
     // Middleware to check if the server is too busy before continuing with request
-    app.use((req, res, next) => {
+ /*    app.use((req, res, next) => {
       if (toobusy()) {
         return res.sendStatus(503);
       } else {
         next();
       }
-    });
+    }); */
 
     // Error handling middleware for auth issues (serialization / deserialization)
-    /*     app.use((err, req, res, next) => {
-         console.log("First error handler!");
-         req.logout();  // Ensure we clean up by logging folks out first so that deserialization won't keep failing
-         res.sendFile(path.join(__dirname, "../client/public/otherfailure.html")); // Dump the user to a verbose error page
-       });  */
+    app.use((err, req, res, next) => {
+      req.logout();  // Ensure we clean up by logging folks out first so that deserialization won't keep failing
+      res.redirect("/error"); // Dump the user to a verbose error page
+    });
 
     // Set up routes
     // ====== Routing ======
@@ -137,8 +137,6 @@ module.exports = function () {
       if (err.redirectTo) {
         res.redirect(err.redirectTo);
       } else {
-        const statusCode = err.statusCode || 500;
-        //res.sendStatus(statusCode);
         res.sendFile(path.join(__dirname, "../client/public/error.html"));
       }
     });
