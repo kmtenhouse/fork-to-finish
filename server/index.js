@@ -9,7 +9,7 @@ const http = require("http"),
   toobusy = require("toobusy-js"),
   helmet = require("helmet"),
   hpp = require("hpp"),
-  rawBody = require("raw-body"),
+  redis = require("redis"),
   path = require("path");
 
 const AuthenticationError = require("./middleware/AuthenticationError");
@@ -23,7 +23,6 @@ module.exports = function () {
   const auth = require("./auth/")();
 
   create = function (config) {
-    let routes = require("./routes");
 
     // Settings
     app.set("env", config.env);
@@ -72,20 +71,28 @@ module.exports = function () {
       app.use(express.static(config.staticDir));
     }
 
-    const sess = session(
+    // Set up session and session store here
+    // (This version uses Redis - other options can be viewed at: https://github.com/expressjs/session#compatible-session-stores )
+    const RedisStore = require("connect-redis")(session);
+    const redisClient = redis.createClient();
+
+    const sessionConfig = session(
       {
+        store: new RedisStore({ client: redisClient }),
         secret: config.cookie_secret,
         resave: false,
-        saveUninitialized: true
+        saveUninitialized: true,
+        cookie: {},
+        name: "id" //make session cookie name generic
       }
     );
 
     if (app.get('env') === 'production') {
       app.set('trust proxy', 1) // trust first proxy
-      sess.cookie = { secure: true };  // serve secure cookies
+      sessionConfig.cookie.secure = true;  // serve secure cookies 
     }
 
-    app.use(sess);
+    app.use(sessionConfig);
 
     // Set request size limits
     // parse application/x-www-form-urlencoded
@@ -125,6 +132,7 @@ module.exports = function () {
 
     // Set up routes
     // ====== Routing ======
+    const routes = require("./routes");
     app.use(routes);
 
     // Catch-all 404
