@@ -72,6 +72,7 @@ module.exports = function () {
     }
 
     // Set up session and session store here
+    // (This version uses Redis - other options can be viewed at: https://github.com/expressjs/session#compatible-session-stores )
     const RedisStore = require("connect-redis")(session);
     const redisClient = redis.createClient();
 
