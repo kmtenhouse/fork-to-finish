@@ -113,11 +113,15 @@ module.exports = function () {
       }
     });
 
-    // Error handling middleware for auth issues (serialization / deserialization)
-     app.use((err, req, res, next) => {
-      req.logout();  // Ensure we clean up by logging folks out first so that deserialization won't keep failing
-      res.sendFile(path.join(__dirname, "../client/public/error.html")); // Dump the user to a verbose error page
-    }); 
+    // Error handling middleware for issues with serialization / deserialization  
+    // (Ex: if the db goes down and we can't look up the user)
+    app.use((err, req, res, next) => {
+      if ((/logout/.test(req.url))) { // If the user is annoyed and trying to log out, let them do it!
+        req.logout();  // Clean up by removing the session info so that they don't keep getting serialization / deserializaiton checks
+        return res.redirect("/");
+      }
+      next(err); // Otherwise, proceed to display our regular error page
+    });
 
     // Set up routes
     // ====== Routing ======
@@ -129,8 +133,6 @@ module.exports = function () {
     // Lastly, here's a catch-all for any errors in routes that might have slipped by without us noticing 
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself
-      console.log(err);
-
       if (err.redirectTo) {
         res.redirect(err.redirectTo);
       } else {
