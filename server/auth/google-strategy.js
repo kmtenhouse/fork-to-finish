@@ -14,11 +14,14 @@ module.exports = function (config) {
     async function (accessToken, refreshToken, profile, done) {
       try {
         const currentUser = await User.findOrCreateViaGoogleId({ googleId: profile.id });
+        if(!currentUser) {
+          done(null, false); //if we somehow didn't manage to find or create a user, call done with 'false' as an argument in place of user data
+        }
         done(null, currentUser);
       }
       catch(err) {
         //log error here
-        done(err, null);
+        done(err);
       }
     }
   );

@@ -36,12 +36,9 @@ module.exports = function () {
         passport.deserializeUser(async function (id, done) {
             try {
                 const currentUser = await User.findById(id);
-                if(!currentUser) {
-                    throw new WebError("User not found");
-                }
                 done(null, currentUser);
             } catch (err) {
-                done(err, null);
+                done(err, false);
             }
         });
 
