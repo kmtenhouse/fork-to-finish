@@ -10,9 +10,9 @@ router.get('/',
 
 router.get('/callback',
     passport.authenticate('google',
-        { failureRedirect: '/failure.html' }),
+        { failureRedirect: '/error' }),
     (req, res) => {
-        res.redirect('/success.html');
+        res.redirect('/members');
     });
 
 module.exports = router;

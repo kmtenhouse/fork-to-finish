@@ -41,7 +41,8 @@ module.exports = function () {
                 }
                 done(null, currentUser);
             } catch (err) {
-                return done(new AuthenticationError(err.message, "/failure.html"), null);
+                done(err, null);
+                // return done(new AuthenticationError(err.message, "/failure.html"), null); 
             }
         });
 

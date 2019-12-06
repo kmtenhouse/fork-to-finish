@@ -129,15 +129,12 @@ module.exports = function () {
     // Lastly, here's a catch-all for any errors in routes that might have slipped by without us noticing 
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself
-      console.log("Second error handler!");
-      if (err instanceof AuthenticationError) {
-        req.logout(); //ensure we log the user out to prevent the application from getting into a bad state 
-      }
+      console.log(err.message);
 
       if (err.redirectTo) {
         res.redirect(err.redirectTo);
       } else {
-        res.sendFile(path.join(__dirname, "../client/public/error.html"));
+        res.redirect("/error");
       }
     });
 
