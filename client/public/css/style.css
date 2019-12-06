@@ -1,0 +1,44 @@
+.custom-navy {
+    background-color:#1f2731
+}
+
+.custom-teal {
+    background-color: #234959;
+}
+
+.custom-font {
+    font-family: 'Roboto', sans-serif;
+}
+
+.custom-heading {
+    display: block;
+    width: 100%;
+}
+
+.custom-logo {
+    margin-left: 1em;
+}
+
+.custom-btn {
+    margin-top: 2em;
+}
+
+.fill-to-height {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.flex-grow {
+    flex: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    .custom-logo {
+        margin-left: 0em;
+    }
+    
+    .custom-image {
+        max-width: 100%;
+    }
+}

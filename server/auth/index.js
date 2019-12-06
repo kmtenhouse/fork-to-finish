@@ -5,6 +5,7 @@ const fs = require("fs"),
 
 const indexFile = path.basename(module.filename);
 const User = require("../services/userService");
+const AuthenticationError = require("../middleware/AuthenticationError");
 
 module.exports = function () {
     const passport = require("passport");
@@ -36,11 +37,12 @@ module.exports = function () {
             try {
                 const currentUser = await User.findById(id);
                 if(!currentUser) {
-                    throw new Error("User not found");
+                    throw new WebError("User not found");
                 }
                 done(null, currentUser);
             } catch (err) {
-                return done(err, null);
+                done(err, null);
+                // return done(new AuthenticationError(err.message, "/failure.html"), null); 
             }
         });
 

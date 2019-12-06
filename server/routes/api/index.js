@@ -2,6 +2,8 @@
 
 const router = require("express").Router();
 const exampleRoutes = require("./examples");
+const WebError = require("../../middleware/WebError");
+//const handleErr = require("../../middleware/index").handleErrs;
 
 //MAIN ROUTES
 //healthcheck route

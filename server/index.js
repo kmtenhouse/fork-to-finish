@@ -9,7 +9,10 @@ const http = require("http"),
   toobusy = require("toobusy-js"),
   helmet = require("helmet"),
   hpp = require("hpp"),
-  rawBody = require("raw-body");
+  rawBody = require("raw-body"),
+  path = require("path");
+
+const AuthenticationError = require("./middleware/AuthenticationError");
 
 module.exports = function () {
   let app = express(),
@@ -56,10 +59,11 @@ module.exports = function () {
     app.use(csp({
       directives: {
         defaultSrc: ["'self'"],  // default value for all directives that are absent
-        scriptSrc: ["'self'"],   // helps prevent XSS attacks
+        scriptSrc: ["'self'", 'cdnjs.cloudflare.com', 'code.jquery.com'],   // helps prevent XSS attacks
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
         imgSrc: ["'self'"],
-        styleSrc: ["'none'"]
+        styleSrc: ["'self'", 'cdnjs.cloudflare.com', 'fonts.googleapis.com'],
+        fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com']
       }
     }));
 
@@ -78,7 +82,7 @@ module.exports = function () {
 
     if (app.get('env') === 'production') {
       app.set('trust proxy', 1) // trust first proxy
-      sess.cookie.secure = true // serve secure cookies
+      sess.cookie = { secure: true };  // serve secure cookies
     }
 
     app.use(sess);
@@ -100,23 +104,19 @@ module.exports = function () {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // Standard middleware to check if the server is too busy before continuing with requests
-    app.use((req, res, next) => {
+    // Middleware to check if the server is too busy before continuing with request
+ /*    app.use((req, res, next) => {
       if (toobusy()) {
         return res.sendStatus(503);
       } else {
         next();
       }
-    });
+    }); */
 
-    // Add error handling middleware for auth issues (serialization / deserialization)
+    // Error handling middleware for auth issues (serialization / deserialization)
     app.use((err, req, res, next) => {
-      if (err) {
-        req.logout(); // Ensure we clean up by logging folks out first so that deserialization won't keep failing
-        res.redirect("/"); // Could redirect the user to a login page (if we had one) and have them log in again
-      } else {
-        next();
-      }
+      req.logout();  // Ensure we clean up by logging folks out first so that deserialization won't keep failing
+      res.redirect("/error"); // Dump the user to a verbose error page
     });
 
     // Set up routes
@@ -129,7 +129,13 @@ module.exports = function () {
     // Lastly, here's a catch-all for any errors in routes that might have slipped by without us noticing 
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself
-      res.sendStatus(500);
+      console.log(err.message);
+
+      if (err.redirectTo) {
+        res.redirect(err.redirectTo);
+      } else {
+        res.redirect("/error");
+      }
     });
 
     // Create a separate server for our app
