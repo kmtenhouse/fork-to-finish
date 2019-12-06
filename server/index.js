@@ -12,6 +12,8 @@ const http = require("http"),
   rawBody = require("raw-body"),
   path = require("path");
 
+const AuthenticationError = require("./middleware/AuthenticationError");
+
 module.exports = function () {
   let app = express(),
     server,
@@ -111,11 +113,11 @@ module.exports = function () {
     });
 
     // Error handling middleware for auth issues (serialization / deserialization)
-    app.use((err, req, res, next) => {
-      // Ensure we clean up by logging folks out first so that deserialization won't keep failing
-      req.logout();
-      next();
-    });
+    /*     app.use((err, req, res, next) => {
+         console.log("First error handler!");
+         req.logout();  // Ensure we clean up by logging folks out first so that deserialization won't keep failing
+         res.sendFile(path.join(__dirname, "../client/public/otherfailure.html")); // Dump the user to a verbose error page
+       });  */
 
     // Set up routes
     // ====== Routing ======
@@ -128,7 +130,10 @@ module.exports = function () {
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself
       console.log("Second error handler!");
-      console.log(err.message);
+      if (err instanceof AuthenticationError) {
+        req.logout(); //ensure we log the user out to prevent the application from getting into a bad state 
+      }
+
       if (err.redirectTo) {
         res.redirect(err.redirectTo);
       } else {

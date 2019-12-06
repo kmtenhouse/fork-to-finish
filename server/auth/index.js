@@ -5,7 +5,7 @@ const fs = require("fs"),
 
 const indexFile = path.basename(module.filename);
 const User = require("../services/userService");
-const WebError = require("../middleware/WebError");
+const AuthenticationError = require("../middleware/AuthenticationError");
 
 module.exports = function () {
     const passport = require("passport");
@@ -41,7 +41,7 @@ module.exports = function () {
                 }
                 done(null, currentUser);
             } catch (err) {
-                return done(err, null);
+                return done(new AuthenticationError(err.message, "/failure.html"), null);
             }
         });
 

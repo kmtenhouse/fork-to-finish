@@ -1,5 +1,6 @@
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const User = require("../services/userService");
+const AuthenticationError = require("../middleware/AuthenticationError");
 
 module.exports = function (config) {
   if (!config.google_client_id || !config.google_client_secret) {
@@ -18,7 +19,7 @@ module.exports = function (config) {
       }
       catch(err) {
         //log error here
-        done(err, null);
+        done(new AuthenticationError(err.message, "/failure.html"), null);
       }
     }
   );
