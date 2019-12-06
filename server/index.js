@@ -105,19 +105,19 @@ module.exports = function () {
     app.use(passport.session());
 
     // Middleware to check if the server is too busy before continuing with request
- /*    app.use((req, res, next) => {
+    app.use((req, res, next) => {
       if (toobusy()) {
         return res.sendStatus(503);
       } else {
         next();
       }
-    }); */
+    });
 
     // Error handling middleware for auth issues (serialization / deserialization)
-    app.use((err, req, res, next) => {
+     app.use((err, req, res, next) => {
       req.logout();  // Ensure we clean up by logging folks out first so that deserialization won't keep failing
-      res.redirect("/error"); // Dump the user to a verbose error page
-    });
+      res.sendFile(path.join(__dirname, "../client/public/error.html")); // Dump the user to a verbose error page
+    }); 
 
     // Set up routes
     // ====== Routing ======
@@ -129,12 +129,12 @@ module.exports = function () {
     // Lastly, here's a catch-all for any errors in routes that might have slipped by without us noticing 
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself
-      console.log(err.message);
+      console.log(err);
 
       if (err.redirectTo) {
         res.redirect(err.redirectTo);
       } else {
-        res.redirect("/error");
+        res.sendFile(path.join(__dirname, "../client/public/error.html"));
       }
     });
 
