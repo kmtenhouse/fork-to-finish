@@ -5,7 +5,6 @@ Tired of hunting through a labrynthian server.js file looking for what you named
 
 ## Installation Steps
 1) Fork and clone this repository to your local machine
-2) Ensure you have an instance of mongoDB running on your machine
 3) In the 'config' directory, follow the example shown in 'config' to create your own local configuration object. (Make sure this file is in your .gitignore!)
     * ```hostname```: name of the host the server is running on
     * ```port```: which port to use
