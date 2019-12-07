@@ -9,8 +9,9 @@ router.get("/", (req, res) => {
   res.send("AUTH ROUTES");
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout", async (req, res) => {
   req.logout();
+  await req.session.destroy();
   res.redirect('/');
 });
 

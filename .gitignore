@@ -4,3 +4,4 @@ client/node_modules/
 config/local.js
 config/certs/
 react/
+archive/
