@@ -12,8 +12,6 @@ const http = require("http"),
   redis = require("redis"),
   path = require("path");
 
-const AuthenticationError = require("./middleware/AuthenticationError");
-
 module.exports = function () {
   let app = express(),
     server,
