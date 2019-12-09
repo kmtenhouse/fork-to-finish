@@ -22,9 +22,9 @@ router.get("/logout", async (req, res) => {
 
 router.get("/whoami", (req, res) => {
   if(req.user) {
-    return res.json(req.user);
+    return res.json({ loggedIn: true });
   }
-  res.json({});
+  res.json({ loggedIn: false });
 })
 
 router.get("/success", (req, res) => {

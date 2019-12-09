@@ -32,10 +32,10 @@ Home.propTypes = {
 }
 
 function Display(props) {
-    if(!props.user._id) {
+    if(!props.user.loggedIn) {
         return <p><a href="http://localhost:4000/auth/google">Sign in with Google</a></p>
     } else {
-    return <p>Welcome!  <a href="http://localhost:4000/auth/logout">Sign out</a></p>
+    return <p>Welcome! Now please <a href="http://localhost:4000/auth/logout">sign out immediately.</a></p>
     }
 }
 

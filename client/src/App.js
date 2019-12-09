@@ -46,7 +46,7 @@ class App extends Component {
               <About />
             </Route>
             <Route path="/">
-              <userContext.Provider value={this.state.user}>
+              <userContext.Provider test={this.state.user} value={this.state.user}>
                 <Home title="Home page" />
               </userContext.Provider>
             </Route>
