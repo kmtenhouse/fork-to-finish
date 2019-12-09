@@ -1,6 +1,6 @@
 "use strict";
 
-const env = process.env.NODE_ENV || "local",
+const env = process.env.NODE_ENV || "development",
   envConfig = require("./" + env);
 
 const defaultConfig = {
