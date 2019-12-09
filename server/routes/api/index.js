@@ -1,9 +1,7 @@
 "use strict";
 
 const router = require("express").Router();
-const exampleRoutes = require("./examples");
-const WebError = require("../../middleware/WebError");
-//const handleErr = require("../../middleware/index").handleErrs;
+const exampleRoutes = require("./example");
 
 //MAIN ROUTES
 //healthcheck route
@@ -11,6 +9,6 @@ router.get("/", (req, res) => {
   res.send("API ROUTES");
 });
 
-router.use("/examples", exampleRoutes);
+router.use("/example", exampleRoutes);
 
 module.exports = router;
