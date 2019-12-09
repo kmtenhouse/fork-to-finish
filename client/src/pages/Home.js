@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios';
+import { userContext } from '../context/userContext';
 
 class Home extends Component {
     static defaultProps = {
@@ -10,46 +10,33 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false,
-            examples: [],
-            err: false
-        };
-    }
-
-    async componentDidMount() {
-        try {
-            const whoami = await axios.get("/auth/whoami");
-            console.log(whoami.data);
-            if (whoami.data._id) {
-                const dbExamples = await axios.get("/api/example");
-                this.setState({
-                    examples: dbExamples.data,
-                    loggedIn: whoami.data
-                });
-            }
-        }
-        catch (err) {
-            console.log(err);
-            this.setState({ err: true });
+            title: props.title
         }
     }
 
     render() {
-        return (!this.state.err ?
-            (<div>
-                <h1>{this.props.title}</h1>
-                {(this.state.user ? <p>Welcome, valued member!</p> : "")}
-                {this.state.examples.map(item => (<p key={item._id}>{item.text}</p>))}
-            </div>)
-            :
-            (<p>Sorry, an error has occurred!</p>)
+        return (
+            <div>
+                <h1>{this.state.title}</h1>
+                <p>Hello World!</p>
+                <userContext.Consumer>
+                    {(value) => (<Display user={value} />)}
+                </userContext.Consumer>
+            </div>
         );
     }
 }
 
 Home.propTypes = {
-    title: PropTypes.string,
-    examples: PropTypes.array
+    title: PropTypes.string
+}
+
+function Display(props) {
+    if(!props.user._id) {
+        return <p><a href="http://localhost:4000/auth/google">Sign in with Google</a></p>
+    } else {
+    return <p>Welcome!  <a href="http://localhost:4000/auth/logout">Sign out</a></p>
+    }
 }
 
 export default Home;
