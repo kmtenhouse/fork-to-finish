@@ -21,6 +21,7 @@ router.get("/logout", async (req, res) => {
 });
 
 router.get("/whoami", (req, res) => {
+  console.log(req.user);
   if(req.user) {
     return res.json({ loggedIn: true });
   }
