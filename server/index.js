@@ -58,10 +58,10 @@ module.exports = function () {
     app.use(csp({
       directives: {
         defaultSrc: ["'self'"],  // default value for all directives that are absent
-        scriptSrc: ["'self'", 'cdnjs.cloudflare.com', 'code.jquery.com'],   // helps prevent XSS attacks
+        scriptSrc: ["'self'"],   // helps prevent XSS attacks
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
         imgSrc: ["'self'"],
-        styleSrc: ["'self'", 'cdnjs.cloudflare.com', 'fonts.googleapis.com'],
+        styleSrc: ["'self'", 'static2.sharepointonline.com'],
         fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com']
       }
     }));
