@@ -11,4 +11,15 @@ router.use("/", htmlRoutes);
 router.use("/api", apiRoutes);
 router.use("/auth", authRoutes);
 
+// CATCH ALL
+router.use((req, res) => {
+    //If no routes are hit in production, send our React app
+    if (process.env.NODE_ENV === "production") {
+        return res.sendFile(path.join(__dirname, "../client/build/index.html"));
+    }
+    //Otherwise, send a 404 (in development)
+    res.sendStatus(404);
+}
+);
+
 module.exports = router;

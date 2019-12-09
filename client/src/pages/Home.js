@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
-/* function Home({ children, title = 'Dr.' }) {
-    return (
-        <div>
-            <h1>{title}</h1>
-            {children}
-        </div>
-    )
-} */
+import axios from 'axios';
 
 class Home extends Component {
     static defaultProps = {
@@ -19,23 +11,45 @@ class Home extends Component {
         super(props);
         this.state = {
             loggedIn: false,
-            user: null
+            examples: [],
+            err: false
         };
     }
 
+    async componentDidMount() {
+        try {
+            const whoami = await axios.get("/auth/whoami");
+            console.log(whoami.data);
+            if (whoami.data._id) {
+                const dbExamples = await axios.get("/api/example");
+                this.setState({
+                    examples: dbExamples.data,
+                    loggedIn: whoami.data
+                });
+            }
+        }
+        catch (err) {
+            console.log(err);
+            this.setState({ err: true });
+        }
+    }
+
     render() {
-        return (
-            <div>
+        return (!this.state.err ?
+            (<div>
                 <h1>{this.props.title}</h1>
-                <p><a href="/auth/google">Log In With Google</a></p>
-                { (this.state.user ? <p>Welcome, valued member!</p> : "" )}
-            </div>
+                {(this.state.user ? <p>Welcome, valued member!</p> : "")}
+                {this.state.examples.map(item => (<p key={item._id}>{item.text}</p>))}
+            </div>)
+            :
+            (<p>Sorry, an error has occurred!</p>)
         );
     }
 }
 
 Home.propTypes = {
-    title: PropTypes.string
+    title: PropTypes.string,
+    examples: PropTypes.array
 }
 
 export default Home;

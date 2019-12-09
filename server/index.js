@@ -122,8 +122,7 @@ module.exports = function () {
     // (Ex: if the db goes down and we can't look up the user)
     app.use((err, req, res, next) => {
       if ((/logout/.test(req.url))) { // If the user is annoyed and trying to log out, let them do it!
-        req.logout();  // Clean up by removing the session info so that they don't keep getting serialization / deserializaiton checks
-        return res.redirect("/");
+        req.logout();  // Clean up by removing the session info so that they don't keep getting serialization / deserialization checks
       }
       next(err); // Otherwise, proceed to display our regular error page
     });
@@ -133,16 +132,14 @@ module.exports = function () {
     const routes = require("./routes");
     app.use(routes);
 
-    // Catch-all 404
-    app.use("*", (req, res) => { res.sendStatus(404) });
-
     // Lastly, here's a catch-all for any errors in routes that might have slipped by without us noticing 
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself
+      console.log(err);
       if (err.redirectTo) {
         res.redirect(err.redirectTo);
       } else {
-        res.sendFile(path.join(__dirname, "../client/public/error.html"));
+        res.sendStatus(500);
       }
     });
 
