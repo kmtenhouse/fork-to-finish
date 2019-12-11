@@ -3,6 +3,7 @@ node_modules/
 client/node_modules/
 
 # Protect environment variables and configurations
+client/.env
 .env
 config/*
 !config/index.js
