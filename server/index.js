@@ -56,11 +56,11 @@ module.exports = function () {
     app.use(csp({
       directives: {
         defaultSrc: ["'self'"],  // default value for all directives that are absent
-        scriptSrc: ["'self'"],   // helps prevent XSS attacks
+        scriptSrc: ["'self'"],   // define valid sources for script files (default: ONLY this domain)
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
-        imgSrc: ["'self'"],
-        styleSrc: ["'self'", 'static2.sharepointonline.com'],
-        fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com']
+        imgSrc: ["'self'"], 
+        styleSrc: ["'self'", 'static2.sharepointonline.com'], //define valid sources for stylesheets (right now: Microsoft style sheet)
+        fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com'] //define valid sources for fonts (right now: Google Fonts)
       }
     }));
 
@@ -69,7 +69,7 @@ module.exports = function () {
       app.use(express.static(config.staticDir));
     }
 
-    // Set up session and session store here
+    // Set up session and session store location here
     // (This version uses Redis - other options can be viewed at: https://github.com/expressjs/session#compatible-session-stores )
     const RedisStore = require("connect-redis")(session);
     const redisClient = redis.createClient();
@@ -81,7 +81,7 @@ module.exports = function () {
         resave: false,
         saveUninitialized: true,
         cookie: {},
-        name: "id" //make session cookie name generic
+        name: "id" //make session cookie name generic so it's harder to tell what tech we are using
       }
     );
 
@@ -119,10 +119,11 @@ module.exports = function () {
     });
 
     // Error handling middleware for issues with serialization / deserialization  
-    // (Ex: if the db goes down and we can't look up the user)
-    app.use((err, req, res, next) => {
+    // (Edge case: if the session db goes down and we can't look up the user from their session cookie)
+    app.use(async (err, req, res, next) => {
       if ((/logout/.test(req.url))) { // If the user is annoyed and trying to log out, let them do it!
         req.logout();  // Clean up by removing the session info so that they don't keep getting serialization / deserialization checks
+        await req.session.destroy();
       }
       next(err); // Otherwise, proceed to display our regular error page
     });

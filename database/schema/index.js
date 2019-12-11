@@ -1,3 +1,4 @@
+"use strict";
 const Example = require ("./Example");
 const User = require ("./User");
 
