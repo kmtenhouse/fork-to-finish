@@ -1,3 +1,4 @@
+"use strict";
 const Example = require("../services/exampleService");
 
 module.exports = {

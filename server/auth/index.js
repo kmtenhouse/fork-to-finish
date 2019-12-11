@@ -5,7 +5,6 @@ const fs = require("fs"),
 
 const indexFile = path.basename(module.filename);
 const User = require("../services/userService");
-const WebError = require("../middleware/WebError");
 
 module.exports = function () {
     const passport = require("passport");
