@@ -1,6 +1,12 @@
+# Ignore node modules
 node_modules/
 client/node_modules/
+
+# Protect environment variables and configurations
 .env
-config/development.js
-config/test.js
+config/*
+!config/index.js
+!config/example.js
+
+# Misc local files to ignore
 archive/
