@@ -1,5 +1,5 @@
 "use strict";
-const User = require("../../database/schema/User");
+const User = require("../schema/User");
 const ServiceError = require("./utils/ServiceError");
 const Promise = require("bluebird");
 

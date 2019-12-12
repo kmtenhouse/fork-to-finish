@@ -1,5 +1,5 @@
 "use strict";
-const Color = require("../services/colorService");
+const Color = require("../../database/services/colorService");
 
 module.exports = {
     findAll: async function (req, res, next) {

@@ -133,21 +133,17 @@ module.exports = function () {
     const routes = require("./routes");
     app.use(routes);
 
-    // Lastly, here's where we place any custom error handlers:
-    const mongoErrorHandler = require("./middleware/errorhandlers/mongoErrorHandler");
-    app.use(mongoErrorHandler);
+    // Lastly, here's where we import any custom error handlers:
+    const errorHandlers = require("./middleware/errorhandlers");
+    for(let key in errorHandlers) {
+      app.use(errorHandlers[key]);
+    }
 
     // Catch-all error handler
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself      
       console.log(err.message);
-      
-      if (err.redirectTo) {
-        res.redirect(err.redirectTo);
-      } else {
-        const statusCode = err.statusCode || 500;
-        res.sendStatus(statusCode);
-      }
+      res.sendStatus(500);
     });
 
     // Create a separate server for our app

@@ -2,7 +2,7 @@
 
 const router = require("express").Router();
 const colorController = require("../../../controllers/colorController");
-const { isAuthenticatedForJSON } = require("../../../middleware/isAuthenticated");
+const { isAuthenticatedForJSON } = require("../../../middleware/auth/isAuthenticated").isAuthenticatedForJSON;
 
 //MAIN ROUTES
 //healthcheck route

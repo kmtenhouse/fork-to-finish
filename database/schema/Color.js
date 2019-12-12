@@ -2,16 +2,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
-//Require helpers:
-const getContrastColor = require("../utils/contrastColor").getContrastColor;
-
 //An example database item: an rgb color 
 const colorSchema = new Schema({
   name: {
     type: String,
-    required: [true, "Must provide a name for the color!"]
+    maxlength: 55
   },
+
   hex: {
     type: String,
     required: [true, "Must provide a valid 3 or 6 digit hex for the color!"],
@@ -30,12 +27,6 @@ const colorSchema = new Schema({
       }
     }
   }
-});
-
-// Pre-save and creation middleware
-colorSchema.pre('save', function(next) {
-  this.contrastColor = getContrastColor(this.hex);
-  next();
 });
 
 // Helper function: calculate the contrast color for a particular new color
