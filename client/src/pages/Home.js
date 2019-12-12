@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { userContext } from '../context/userContext';
+import { UserConsumer } from "../context/userContext"
+
 
 class Home extends Component {
     static defaultProps = {
@@ -19,9 +20,9 @@ class Home extends Component {
             <div>
                 <h1>{this.state.title}</h1>
                 <p>Hello World!</p>
-                <userContext.Consumer>
+                <UserConsumer>
                     {(value) => (<Display user={value} />)}
-                </userContext.Consumer>
+                </UserConsumer>
             </div>
         );
     }
@@ -32,10 +33,10 @@ Home.propTypes = {
 }
 
 function Display(props) {
-    if(!props.user.loggedIn) {
-        return <p><a href="http://localhost:4000/auth/google">Sign in with Google</a></p>
+    if (!props.user.loggedIn) {
+        return <p><a href="http://localhost:4000/auth/google">Sign in to begin</a></p>
     } else {
-    return <p>Welcome! Now please <a href="http://localhost:4000/auth/logout">sign out immediately.</a></p>
+        return <p>Welcome, valued member!</p>
     }
 }
 
