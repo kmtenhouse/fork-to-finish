@@ -1,5 +1,6 @@
+"use strict";
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-const User = require("../services/userService");
+const User = require("../../database/services/userService");
 
 module.exports = function (config) {
   if (!config.google_client_id || !config.google_client_secret) {

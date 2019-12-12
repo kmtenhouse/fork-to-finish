@@ -4,8 +4,7 @@ const fs = require("fs"),
     path = require("path");
 
 const indexFile = path.basename(module.filename);
-const User = require("../services/userService");
-const WebError = require("../middleware/WebError");
+const User = require("../../database/services/userService");
 
 module.exports = function () {
     const passport = require("passport");
@@ -24,7 +23,6 @@ module.exports = function () {
                 });
         }
         catch (err) {
-            err.message = "Auth initialization failed! " + err.message;
             throw err;
         }
 

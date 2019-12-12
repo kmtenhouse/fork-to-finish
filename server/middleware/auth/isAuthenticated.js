@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
     //this function promisifies an existing express function so that any unhandled errors within will be automagically passed to next()
     //this will ensure that any unexpected errors flow through to 

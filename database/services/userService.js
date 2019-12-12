@@ -1,7 +1,7 @@
-const User = require("../../database/schema/User");
+"use strict";
+const User = require("../schema/User");
 const ServiceError = require("./utils/ServiceError");
 const Promise = require("bluebird");
-
 
 function findById(id) {
     return User.findOne({ _id: id });

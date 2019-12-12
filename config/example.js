@@ -2,7 +2,7 @@
 
 const localConfig = {
   hostname: "localhost",
-  port: 3001,
+  port: 4000,
   databaseRef: "mongodb://localhost/exampledb"
 };
 
