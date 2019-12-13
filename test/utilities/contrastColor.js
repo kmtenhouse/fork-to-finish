@@ -1,6 +1,6 @@
 const expect = require("chai").expect;
-const hexToRGB = require("../../database/utils/contrastColor").hexToRGB
-const getContrastColor = require("../../database/utils/contrastColor").getContrastColor;
+const hexToRGB = require("../../database/services/utils/contrastColor").hexToRGB
+const getContrastColor = require("../../database/services/utils/contrastColor").getContrastColor;
 
 describe("calculate rgb color", function () {
     it("should calculate the correct rgb values from a six digit hex string (with #)", function () {

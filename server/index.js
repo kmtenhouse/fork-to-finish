@@ -56,11 +56,11 @@ module.exports = function () {
     app.use(csp({
       directives: {
         defaultSrc: ["'self'"],  // default value for all directives that are absent
-        scriptSrc: ["'self'"],   // define valid sources for script files (default: ONLY this domain)
+        scriptSrc: ["'self'"],   // define valid sources for script files 
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
-        imgSrc: ["'self'"], 
-        styleSrc: ["'self'", 'static2.sharepointonline.com'], //define valid sources for stylesheets (right now: Microsoft style sheet)
-        fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com'] //define valid sources for fonts (right now: Google Fonts)
+        imgSrc: ["'self'"], // define valid souces of images
+        styleSrc: ["'self'"], // define valid sources for stylesheets 
+        fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com'] //define valid sources for fonts (example shown: Google Fonts)
       }
     }));
 
@@ -69,14 +69,18 @@ module.exports = function () {
       app.use(express.static(config.staticDir));
     }
 
-    // Set up session and session store location here
+    // SESSION STORAGE SETUP
+    //-------------------------------------------------------
+    // Set up your session store below
     // (This version uses Redis - other options can be viewed at: https://github.com/expressjs/session#compatible-session-stores )
     const RedisStore = require("connect-redis")(session);
     const redisClient = redis.createClient();
+    const sessionStore = new RedisStore({ client: redisClient });
+    //-------------------------------------------------------
 
     const sessionConfig = session(
       {
-        store: new RedisStore({ client: redisClient }),
+        store: sessionStore,
         secret: config.cookie_secret,
         resave: false,
         saveUninitialized: true,
@@ -85,9 +89,11 @@ module.exports = function () {
       }
     );
 
+    //In production, ensure we are using secure cookies for our session!
     if (app.get('env') === 'production') {
       app.set('trust proxy', 1) // trust first proxy
-      sessionConfig.cookie.secure = true;  // serve secure cookies 
+      sessionConfig.cookie.secure = true;  // serve secure cookies
+      sessionConfig.cookie.httpOnly = true; // ensure front end js cannot touch cookie 
     }
 
     app.use(sessionConfig);
@@ -135,11 +141,11 @@ module.exports = function () {
 
     // Lastly, here's where we import any custom error handlers:
     const errorHandlers = require("./middleware/errorhandlers");
-    for(let key in errorHandlers) {
-      app.use(errorHandlers[key]);
+    for (let fn of errorHandlers) {
+      app.use(fn);
     }
 
-    // Catch-all error handler
+    // Final, catch-all error handler
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself      
       console.log(err.message);
