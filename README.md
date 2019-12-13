@@ -45,6 +45,8 @@ Tired of hunting through a labrynthian server.js file looking for what you named
         * **Errorhandlers:** Custom error handling middleware
     * **Routes:** 
     Contains Express route definitions (using [Express router](http://expressjs.com/en/5x/api.html#router))
+5. **Test:**
+    Contains all test files for the project (assumes use of mocha / chai).
 
 ## Common Areas to Customize
 ### 1. Authentication / Authorization Stratgies
@@ -65,8 +67,12 @@ Express.js has a barebones built-in error handler which returns a statusCode 500
 * To define custom error handlers, add new files within ```server/middleware/errorhandlers```. These files should each export a function with four parameters (err, req, res, next). 
 * Ensure your new file is imported into ```server/middleware/errorhandlers``` and exported in the preferred execution order
 
-## 
-
+## Future Features
+Future features include:
+* More robust front-end auth example
+* More robust error handling when required configs are missing
+* Back end test examples for database services and express routes
+* Front end test examples
 
 ## Addendum: Setting up a Google project with credentials for Open Id Connect
 <a name="#google">This project uses Google's Open Id Connect service to authenticate users.</a> Website visitors who have an existing google account can use those credentials to authenticate themselves without ever passing any sensitive information (such as password) through this project. In order to use this auth strategy for your own project, you will need to register your application with Google as follows:
