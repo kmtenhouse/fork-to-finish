@@ -16,7 +16,6 @@ function deleteOne(id) {
 
 async function createOne(obj, cb) {
     try {
-        //Business logic:
         //If a contrast color was not provided, we generate one
         if (!obj.contrastColor) {
             obj.contrastColor = getContrastColor(obj.hex);

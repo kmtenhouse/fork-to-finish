@@ -139,7 +139,7 @@ module.exports = function () {
       app.use(errorHandlers[key]);
     }
 
-    // Catch-all error handler
+    // Final, catch-all error handler
     app.use((err, req, res, next) => {
       // (To-do) Log the error itself      
       console.log(err.message);
