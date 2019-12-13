@@ -1,7 +1,7 @@
 const mongoErrorHandler = require("./mongoErrorHandler");
 const serviceErrorHandler = require("./serviceErrorHandler");
 
-module.exports = {
+module.exports = [
     mongoErrorHandler, 
     serviceErrorHandler
-}
+];

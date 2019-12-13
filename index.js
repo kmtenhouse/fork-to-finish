@@ -5,8 +5,12 @@ const server = require("./server")(),
   config = require("./config");
 
 (async function () {
-  await database.connect(config);
-  server.create(config);
-  server.start();
+  try {
+    await database.connect(config);
+    server.create(config);
+    server.start();
+  } catch(err) {
+    throw err;
+  }
 })();
 
