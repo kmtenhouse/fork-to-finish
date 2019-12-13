@@ -3,7 +3,7 @@ From start to finish - a starter kit for an MVC style MERN project, including an
 
 Tired of hunting through a labrynthian server.js file looking for what you named your api routes?  Trying to make sure your business logic is properly applied to every database interaction? Check out 'fork to finish' -- a MERN stack starter kit designed to strongly separate concerns. This MVC layout is intended to make it easier for teams to zero in on the code they need to work on. Additionally, this project includes several standard recommendations from [the Open Web Application Security Project](https://www.owasp.org/index.php/Main_Page) to help prevent some common vulnerabilites.
 
-## Installation Steps for the Example
+## Installation (Quick Start)
 1) Fork this repository and clone it to your machine
 2) Create a Google project and basic oAuth credentials. Step-by-step instructions are provided in [the below addendum](#google).
 3) Ensure you have (MongoDB)[https://www.mongodb.com/download-center/community] installed and running on your local machine. 
@@ -20,7 +20,7 @@ Tired of hunting through a labrynthian server.js file looking for what you named
 4) Run the project using ```npm start```    
 
 ## Architecture Overview
-![Diagram of architecture - details below in text](documentation/design-overview.png "Design Overview - Subject to Change")
+![Diagram of architecture - details below in text](documentation/design-overview-12-13.png "Design Overview")
 
 1. **Client:**
     Contains all code for the front-end application. Example application is based on the create-react-app boilerplate.
