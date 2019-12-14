@@ -6,8 +6,8 @@ Tired of hunting through a labrynthian server.js file looking for what you named
 ## Installation (Quick Start)
 1) Fork this repository and clone it to your machine
 2) Create a Google project and basic oAuth credentials. Step-by-step instructions are provided in [the below addendum](#google).
-3) Ensure you have (MongoDB)[https://www.mongodb.com/download-center/community] installed and running on your local machine. 
-4) Ensure you have (Redis)[https://redis.io/] installed and running on your local machine. 
+3) Ensure you have [MongoDB](https://www.mongodb.com/download-center/community) installed and running on your local machine. 
+4) Ensure you have [Redis](https://redis.io/) installed and running on your local machine. 
     * Windows users can substitute the technical preview edition of [Memurai](https://www.memurai.com/)
 3) Generate a cryptographically strong string for your cookie secret ([see Node.js crypto for one option](https://nodejs.org/api/crypto.html#crypto_crypto_randombytes_size_callback) )
 4) In the 'config' directory, follow the format shown in 'config/example.js' to create your own local configuration file. This file should be named 'config/development.js'.
@@ -67,15 +67,19 @@ Express.js has a barebones built-in error handler which returns a statusCode 500
 * To define custom error handlers, add new files within ```server/middleware/errorhandlers```. These files should each export a function with four parameters (err, req, res, next). 
 * Ensure your new file is imported into ```server/middleware/errorhandlers``` and exported in the preferred execution order
 
-## Future Features
-Future features include:
+## Upcoming Releases
+Future features on the roadmap include:
 * More robust front-end auth example
 * More robust error handling when required configs are missing
 * Back end test examples for database services and express routes
 * Front end test examples
 
+## Addendum: Privacy Policy
+<a name="#privacy"></a>
+This example project uses cookies to store a small amount of data on your personal computer to verify that you are authenticated. This project does not retain any information about individuals aside from a numeric id number provided by Google.  
+
 ## Addendum: Setting up a Google project with credentials for Open Id Connect
-<a name="#google">This project uses Google's Open Id Connect service to authenticate users.</a> Website visitors who have an existing google account can use those credentials to authenticate themselves without ever passing any sensitive information (such as password) through this project. In order to use this auth strategy for your own project, you will need to register your application with Google as follows:
+<a name="#google"></a>This project uses Google's Open Id Connect service to authenticate users. Website visitors who have an existing google account can use those credentials to authenticate themselves without ever passing any sensitive information (such as password) through this project. In order to use this auth strategy for your own project, you will need to register your application with Google as follows:
 
 1. Register for a developer account at [https://console.developers.google.com/].
 2. Log in and create a new project. 
