@@ -1,0 +1,116 @@
+.sidenav {
+    width: 100%;
+}
+
+.sidenav__bar {
+    padding: 0.5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: black;
+}
+
+.sidenav__bar--vertical {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    background: white;
+}
+
+.sidenav__slideout {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 75%;
+    max-width: 300px;
+    height: 100%;
+    background-color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidenav__slideout--open {
+    transform: translate(300px,0px);
+}
+
+.sidenav__heading {
+    color: white;
+    background-color: #1f2732;
+/*     font-family: $accent__font-family;
+    font-size: $base__font-size--larger; */
+    padding: 0.5em;
+}
+
+.sidenav__item {
+    display: block;
+/*     font-family: $base__font-family;
+    font-weight: $semibold; */
+}
+
+.sidenav__item--logo {
+    flex: 1;
+}
+
+.sidenav__logo {
+    display: block;
+    width: 90%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.sidenav__link {
+    text-decoration: none;
+    text-align: left;
+    color: black;
+    display: block;
+    width: 80%;
+    padding: 0.5em;
+    margin: 0.25em auto 0.25em 1em;
+    border-bottom: 1px solid black;
+}
+
+.sidenav__link--final {
+    margin-bottom: 0.75em;
+}
+
+.sidenav__link:visited {
+    color: black;
+}
+
+.sidenav__shade {
+    display: block; 
+    z-index: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0,0,0,0.75);
+    opacity: 0;
+    transform: translate(-150%,0px);
+    transition: opacity 0.3s ease-in-out;
+}
+
+.sidenav__shade--open {
+    transform: translate(0%,0px);
+    opacity: 1;
+}
+
+
+@media only screen and (min-width: 768px) {
+    .sidenav__bar {
+        justify-content: space-between;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .sidenav {
+        display: none;
+    }
+}

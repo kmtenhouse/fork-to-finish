@@ -8,12 +8,14 @@ import {
   withRouter
 } from 'react-router-dom'
 
-import Home from "./pages/Home";
 import axios from "axios";
 import { UserProvider, UserConsumer } from "./context/userContext";
+import { ProtectedLink } from "./components/ProtectedRoute";
 
-// Note: In development, we want a couple routes to direct to the backend for ouath flow
-const baseURL = (process.env.NODE_ENV === "development" ? "http://localhost:4000" : '');
+import "./App.css";
+
+import Home from "./pages/Home";
+import Nav from "./components/Nav";
 
 class App extends Component {
   constructor(props) {
@@ -32,23 +34,8 @@ class App extends Component {
     return (
       <UserProvider>
         <Router>
+          <Nav />
           <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/home">Home</Link>
-                </li>
-                <li>
-                  <Link to="/about">About</Link>
-                </li>
-                <li>
-                  <UserConsumer>
-                    {(value) => (value.loggedIn ? <a href={`${baseURL}/auth/logout`}>Log Out</a> : <a href={`${baseURL}/auth/google`}>Log In</a>)}
-                  </UserConsumer>
-                </li>
-              </ul>
-            </nav>
-
             <Switch>
               <Route exact path="/home">
                 <Home title="Home page" />
