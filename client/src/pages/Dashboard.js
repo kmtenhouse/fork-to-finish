@@ -9,7 +9,8 @@ class Dashboard extends Component {
     state = {
         name: '',
         hex: '#fff',
-        colors: []
+        colors: [],
+        saveErr: ''
     };
 
     componentDidMount() {
@@ -28,19 +29,32 @@ class Dashboard extends Component {
         }
     }
 
-    addNewColor = (color) => {
-        const allColors = this.state.colors;
-        allColors.push(color);
-        this.setState({ colors: allColors });
+    addColor = (colorToAdd) => {
+        //First, check if we have too many colors already:
+        if (this.state.colors.length >= 16) {
+            this.setState({ saveErr: "Sorry, you can only save up to 16 colors at a time!" });
+            return;
+        }
+        //If not: we try to save the color, and then update our local store
+        axios.post("/api/color", colorToAdd)
+            .then(result => {
+                const allColors = this.state.colors;
+                allColors.push(result.data);
+                this.setState({ colors: allColors });
+            })
+            .catch(err => {
+                this.setState({ saveErr: "Sorry, something went awry!  Try again later." });
+            });
+
     }
 
     deleteColor = (colorToNix) => {
         axios.delete(`/api/color/${colorToNix._id}`, colorToNix)
-        .then(result=> {
-            const allColors = this.state.colors.filter(color => color._id !== colorToNix._id);
-            this.setState({ colors: allColors});
-        })
-        .catch(err=>console.log(err));
+            .then(result => {
+                const allColors = this.state.colors.filter(color => color._id !== colorToNix._id);
+                this.setState({ colors: allColors });
+            })
+            .catch(err => console.log(err));
     }
 
     handleChangeComplete = (color) => {
@@ -52,7 +66,7 @@ class Dashboard extends Component {
             <div className="page">
                 <div className="page__section">
                     <h2 className="page__subhead">Add a Color</h2>
-                    <ColorSelector onSave={this.addNewColor} />
+                    <ColorSelector onSave={this.addColor} saveErr={this.state.saveErr} />
                 </div>
                 <div className="page__section">
                     <h2 className="page__subhead">Your Palette</h2>

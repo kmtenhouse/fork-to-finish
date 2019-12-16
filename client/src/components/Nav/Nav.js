@@ -62,8 +62,4 @@ class Nav extends React.Component {
     }
 }
 
-function test() {
-    console.log("Clicked");
-}
-
 export default Nav;

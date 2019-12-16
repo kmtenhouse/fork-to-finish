@@ -1,7 +1,6 @@
 /* Import packages */
 import React, { Component } from 'react'
 import { SketchPicker } from "react-color";
-import axios from "axios";
 import getContrastColor from "../../utils/contrastColor";
 
 import "./colorselector.css";
@@ -12,8 +11,7 @@ class ColorSelector extends Component {
         name: '',
         hex: '#fff',
         contrastColor: '',
-        inputErr: '',
-        saveErr: ''
+        inputErr: ''
     };
 
     handleChangeComplete = (color) => {
@@ -45,12 +43,7 @@ class ColorSelector extends Component {
     saveColor = (event) => {
         event.preventDefault();
         const { hex, name, contrastColor } = this.state;
-        axios.post("/api/color", { name, hex, contrastColor })
-            .then(result => {
-                console.log(result.data);
-                this.props.onSave(result.data);
-            })
-            .catch(err => this.setState({ saveErr: err.message }));
+        this.props.onSave({ hex, name, contrastColor});
     }
 
     render() {
@@ -67,7 +60,7 @@ class ColorSelector extends Component {
                     <input placeholder="Name your custom color!" type="text" value={this.state.name} name="name" onChange={this.handleInputChange} />
                     <div className="color-select__err">{this.state.inputErr}</div>
                     <button onClick={this.saveColor}>Save</button>
-                    <div className="color-select__err">{this.state.saveErr}</div>
+                    <div className="color-select__err">{this.props.saveErr}</div>
                 </div>
             </div>
         );
