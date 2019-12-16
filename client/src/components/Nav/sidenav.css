@@ -1,17 +1,22 @@
 .sidenav {
     background-color: white;
     border: 0;
-    width: 80%;
     z-index: 4;
-    height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    display: none;
+    width: 80%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: all 0.3s ease-in-out;
+    display: none; 
 }
 
 .sidenav--open {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .sidenav__group {
@@ -29,6 +34,7 @@
 .sidenav__item--heading {
     background-color: #00858e;
     color: white;
+    border: none;
 }
 
 .sidenav__link {
@@ -44,7 +50,7 @@
 
 @media only screen and (min-width: 576px) {
     .sidenav {
-        width: 40%;
+        width: 45%;
     }
 }
 

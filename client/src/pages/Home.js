@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { UserConsumer } from "../context/userContext"
+import "./page.css";
 
 
 class Home extends Component {
@@ -17,7 +18,7 @@ class Home extends Component {
 
     render() {
         return (
-            <div>
+            <div className="page">
                 <h1>{this.state.title}</h1>
                 <p>Hello World!</p>
                 <UserConsumer>

@@ -1,0 +1,24 @@
+.page {
+    padding: 1em 1em;
+    color: white;
+}
+
+.page__heading {
+    padding: 0;
+    margin: 0;
+}
+
+.page a {
+    color: #bad532;
+    text-decoration: none;
+}
+
+.page a:visited {
+    color: #bad532;
+    text-decoration: none; 
+}
+
+.page a:hover {
+    color: #d3f237;
+    cursor: pointer;
+}

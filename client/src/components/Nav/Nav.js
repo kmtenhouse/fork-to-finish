@@ -45,7 +45,7 @@ class Nav extends React.Component {
 
                     <ul className="nav__group nav__group--logo">
                         <li className="nav__item">
-                            Pallette Town
+                            Palette Town
                 </li>
                     </ul>
 

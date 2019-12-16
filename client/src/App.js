@@ -15,7 +15,9 @@ import { ProtectedLink } from "./components/ProtectedRoute";
 import "./App.css";
 
 import Home from "./pages/Home";
+import About from "./pages/About";
 import Nav from "./components/Nav";
+import Container from "./components/Container";
 
 class App extends Component {
   constructor(props) {
@@ -35,7 +37,7 @@ class App extends Component {
       <UserProvider>
         <Router>
           <Nav />
-          <div>
+          <Container>
             <Switch>
               <Route exact path="/home">
                 <Home title="Home page" />
@@ -48,16 +50,12 @@ class App extends Component {
               </Route>
               <Route component={NotFound} />
             </Switch>
-          </div>
+          </Container>
         </Router>
       </UserProvider>
     );
   }
 
-}
-
-function About() {
-  return <h2>About</h2>;
 }
 
 function NotFound() {
