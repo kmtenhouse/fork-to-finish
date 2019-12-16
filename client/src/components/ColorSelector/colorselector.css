@@ -1,0 +1,19 @@
+.color-select {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+
+@media only screen and (min-width: 576px) {
+    .color-select {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .color-select__section {
+        padding: 0.5em 0.5em;
+    }
+}

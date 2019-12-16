@@ -30,7 +30,7 @@ class Nav extends React.Component {
                 <nav className="nav">
                     <ul className="nav__group nav__group--mobile">
                         <li className="nav__item">
-                            <a href="#" className="nav__link" onClick={this.openSideNav}><img src={HamburgerIcon} alt="Menu Icon" /></a>
+                            <button className="nav__link" onClick={this.openSideNav}><img src={HamburgerIcon} alt="Menu Icon" /></button>
                         </li>
                     </ul>
 

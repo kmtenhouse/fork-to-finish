@@ -8,12 +8,13 @@ import {
 import axios from "axios";
 
 /* Import context for auth */
-import { UserProvider } from "./context/userContext";
+import { UserProvider, UserConsumer } from "./context/userContext";
 
 /* Import pages */
 import Home from "./pages/Home";
 import About from "./pages/About";
 import NotFound from './pages/NotFound';
+import Dashboard from "./pages/Dashboard";
 
 /* Import components */
 import Nav from "./components/Nav";
@@ -43,13 +44,17 @@ class App extends Component {
           <Container>
             <Switch>
               <Route exact path="/home">
-                <Home title="Home page" />
+                 <UserConsumer>
+                  {(value) => (value.loggedIn ? <Dashboard /> : <Home />)}
+                </UserConsumer> 
               </Route>
               <Route exact path="/about">
                 <About />
               </Route>
               <Route exact path="/">
-                <Home title="Home page" />
+                 <UserConsumer>
+                  {(value) => (value.loggedIn ? <Dashboard /> : <Home />)}
+                </UserConsumer> 
               </Route>
               <Route component={NotFound} />
             </Switch>
@@ -61,4 +66,5 @@ class App extends Component {
 
 }
 
-export default App;  
+export default App;
+

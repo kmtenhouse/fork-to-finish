@@ -42,12 +42,17 @@ function About(props) {
     return (
         <div className="page">
             <h1 className="page__heading">About Palette Town</h1>
-            <p>Palette Town is a brief demonstration of the MERN starter kit <a className="page__link" href="https://github.com/kmtenhouse/fork-to-finish">Fork to Finish</a>.
+            <section className="page__section">
+                <h2 className="page__subhead">Overview</h2>
+                <p>Palette Town is a brief demonstration of the MERN starter kit <a className="page__link" href="https://github.com/kmtenhouse/fork-to-finish">Fork to Finish</a>. 
             </p>
-            <h2 className="page__heading">Artwork Credits</h2>
-            <CreditGallery>
-                {credits.map(attribution => <CreditBox attribution={attribution} key={attribution._id} />)}
-            </CreditGallery>
+            </section>
+            <section className="page__section">
+                <h2 className="page__subhead">Artwork Credits</h2>
+                <CreditGallery>
+                    {credits.map(attribution => <CreditBox attribution={attribution} key={attribution._id} />)}
+                </CreditGallery>
+            </section>
         </div>
     );
 }
