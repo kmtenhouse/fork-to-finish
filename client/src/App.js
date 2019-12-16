@@ -1,23 +1,26 @@
+/* Import packages */
 import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Switch,
-  Redirect,
-  withRouter
+  Switch
 } from 'react-router-dom'
-
 import axios from "axios";
-import { UserProvider, UserConsumer } from "./context/userContext";
-import { ProtectedLink } from "./components/ProtectedRoute";
 
-import "./App.css";
+/* Import context for auth */
+import { UserProvider } from "./context/userContext";
 
+/* Import pages */
 import Home from "./pages/Home";
 import About from "./pages/About";
+import NotFound from './pages/NotFound';
+
+/* Import components */
 import Nav from "./components/Nav";
 import Container from "./components/Container";
+
+/* Import css */
+import "./App.css";
 
 class App extends Component {
   constructor(props) {
@@ -56,10 +59,6 @@ class App extends Component {
     );
   }
 
-}
-
-function NotFound() {
-  return <h2>404</h2>;
 }
 
 export default App;  
