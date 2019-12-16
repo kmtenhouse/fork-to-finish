@@ -36,10 +36,8 @@ class App extends Component {
       this.checkLoginState();
     }
     catch(err) {
+      console.log("Error checking log in status!");
       console.log(err);
-      if(err.response) {
-        console.log(err.response.status)
-      }
     }
 
   }

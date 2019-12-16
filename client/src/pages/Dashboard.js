@@ -16,16 +16,31 @@ class Dashboard extends Component {
         this.getUserColors();
     }
 
-    getUserColors = async() => {
+    getUserColors = async () => {
         try {
             const allColors = await axios.get("/api/color");
             this.setState({
                 colors: allColors.data.colors
             })
         }
-        catch(err) {
+        catch (err) {
             console.log(err);
         }
+    }
+
+    addNewColor = (color) => {
+        const allColors = this.state.colors;
+        allColors.push(color);
+        this.setState({ colors: allColors });
+    }
+
+    deleteColor = (colorToNix) => {
+        axios.delete(`/api/color/${colorToNix._id}`, colorToNix)
+        .then(result=> {
+            const allColors = this.state.colors.filter(color => color._id !== colorToNix._id);
+            this.setState({ colors: allColors});
+        })
+        .catch(err=>console.log(err));
     }
 
     handleChangeComplete = (color) => {
@@ -36,9 +51,12 @@ class Dashboard extends Component {
         return (
             <div className="page">
                 <div className="page__section">
-                    <h2 className="page__subhead">Create a Color</h2>
-                    <ColorSelector onSave={this.getUserColors} />
-                    <ColorPalette colors={this.state.colors} />
+                    <h2 className="page__subhead">Add a Color</h2>
+                    <ColorSelector onSave={this.addNewColor} />
+                </div>
+                <div className="page__section">
+                    <h2 className="page__subhead">Your Palette</h2>
+                    <ColorPalette colors={this.state.colors} onDelete={this.deleteColor} />
                 </div>
             </div>
         );

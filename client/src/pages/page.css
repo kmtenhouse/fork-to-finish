@@ -1,5 +1,5 @@
 .page {
-    padding: 1em 1em;
+    padding: 0.5em 1em;
     color: white;
     font-family: 'Open Sans', sans-serif;
 }
@@ -12,14 +12,15 @@
 }
 
 .page__subhead {
-    padding: 0;
+    padding-bottom: 0.5em;
     margin: 0;
     font-family: 'Oregano', cursive;
     color: white;
 }
 
 .page__section {
-    margin-top: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 2em;
 }
 
 .page__section--flex {
@@ -68,6 +69,10 @@
 }
 
 @media only screen and (min-width: 576px) {
+    .page {
+        padding: 1em 1em;
+    }
+
     .page__section--flex {
         display: flex;
         flex-direction: row;

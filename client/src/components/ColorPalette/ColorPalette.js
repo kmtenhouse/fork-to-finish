@@ -8,7 +8,7 @@ function ColorPalette(props) {
 
     return(
         <div className="palette">
-            {colors.map(color=> <ColorBox hex={color.hex} name={color.name} contrastColor={color.contrastColor} key={color._id} /> )}
+            {colors.map(color=> <ColorBox color={color} name={color.name} animate={true} key={color._id} onDelete={props.onDelete} /> )}
         </div>
     );  
 }
