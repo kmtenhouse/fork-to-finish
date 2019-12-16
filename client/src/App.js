@@ -32,7 +32,20 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const result = await axios.get("/auth/whoami").catch((err) => { console.log(err) });
+    try {
+      this.checkLoginState();
+    }
+    catch(err) {
+      console.log(err);
+      if(err.response) {
+        console.log(err.response.status)
+      }
+    }
+
+  }
+
+  checkLoginState = async () => {
+    const result = await axios.get("/auth/whoami");
     this.setState({ user: result.data });
   }
 
@@ -44,17 +57,17 @@ class App extends Component {
           <Container>
             <Switch>
               <Route exact path="/home">
-                 <UserConsumer>
+                <UserConsumer>
                   {(value) => (value.loggedIn ? <Dashboard /> : <Home />)}
-                </UserConsumer> 
+                </UserConsumer>
               </Route>
               <Route exact path="/about">
                 <About />
               </Route>
               <Route exact path="/">
-                 <UserConsumer>
+                <UserConsumer>
                   {(value) => (value.loggedIn ? <Dashboard /> : <Home />)}
-                </UserConsumer> 
+                </UserConsumer>
               </Route>
               <Route component={NotFound} />
             </Switch>

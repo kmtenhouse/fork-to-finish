@@ -12,7 +12,7 @@ function findAllColors() {
 }
 
 function findAllColorsByUser(id) {
-    return Color.find({ user: id});
+    return User.findById(id).select('colors').populate('colors');
 }
 
 function deleteOne(id) {

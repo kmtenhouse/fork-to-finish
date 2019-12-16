@@ -46,8 +46,11 @@ class ColorSelector extends Component {
         event.preventDefault();
         const { hex, name, contrastColor } = this.state;
         axios.post("/api/color", { name, hex, contrastColor })
-            .then( result=> console.log(result.data))
-            .catch(err=> this.setState({ saveErr: err.message } ));
+            .then(result => {
+                console.log(result.data);
+                this.props.onSave();
+            })
+            .catch(err => this.setState({ saveErr: err.message }));
     }
 
     render() {
