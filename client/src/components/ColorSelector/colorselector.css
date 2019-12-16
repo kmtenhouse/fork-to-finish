@@ -1,7 +1,11 @@
 .color-select {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     flex-wrap: wrap;
+}
+
+.color-select__err {
+    color: #fbb040;
 }
 
 

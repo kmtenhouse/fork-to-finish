@@ -2,27 +2,52 @@
 import React, { Component } from 'react'
 import { SketchPicker } from "react-color";
 import axios from "axios";
+import getContrastColor from "../../utils/contrastColor";
 
 import "./colorselector.css";
-import { NONAME } from 'dns';
+import ColorBox from "../ColorBox";
 
 class ColorSelector extends Component {
     state = {
         name: '',
         hex: '#fff',
-        contrastColor: ''
+        contrastColor: '',
+        inputErr: '',
+        saveErr: ''
     };
 
     handleChangeComplete = (color) => {
-        this.setState({ hex: color.hex });
+        //first, get the contrast color for this hex
+        const newContrast = getContrastColor(color.hex);
+
+        //next, update the state
+        this.setState({
+            hex: color.hex,
+            contrastColor: newContrast
+        });
     };
 
     handleInputChange = (event) => {
         event.preventDefault();
         const { name, value } = event.target;
-        this.setState({
-            [name]: value
-        });
+        if (value.length > 30) {
+            this.setState({
+                inputErr: "Please use 30 characters or less!"
+            });
+        } else {
+            this.setState({
+                inputErr: '',
+                [name]: value
+            });
+        }
+    }
+
+    saveColor = (event) => {
+        event.preventDefault();
+        const { hex, name, contrastColor } = this.state;
+        axios.post("/api/color", { name, hex, contrastColor })
+            .then( result=> console.log(result.data))
+            .catch(err=> this.setState({ saveErr: err.message } ));
     }
 
     render() {
@@ -33,10 +58,13 @@ class ColorSelector extends Component {
                         color={this.state.hex}
                         onChangeComplete={this.handleChangeComplete} />
                 </div>
-                <div className="color-select__section"> 
-                    <ColorBox hex={this.state.hex} contrastColor={this.state.contrastColor} name={this.state.name} />
+                <div className="color-select__section">
+                    <ColorBox hex={this.state.hex} contrastColor={this.state.contrastColor} name={this.state.name} width="300px" />
                     <label htmlFor="name">Color Name:</label>
-                    <input type="text" value={this.state.name} name="name" onChange={this.handleInputChange} />
+                    <input placeholder="Name your custom color!" type="text" value={this.state.name} name="name" onChange={this.handleInputChange} />
+                    <div className="color-select__err">{this.state.inputErr}</div>
+                    <button onClick={this.saveColor}>Save</button>
+                    <div className="color-select__err">{this.state.saveErr}</div>
                 </div>
             </div>
         );
@@ -45,39 +73,3 @@ class ColorSelector extends Component {
 }
 
 export default ColorSelector;
-
-
-function ColorBox(props) {
-    const style = {
-        backgroundColor: props.hex || "transparent",
-        color: props.contrastColor || "#000",
-        width: "100px",
-        height: "100px"
-    };
-    return (
-        <div style={style}>
-            {props.name || 'Unnamed'}
-            <ContrastDot hex="#FFFFFF" />
-            <ContrastDot hex="#000000" />
-        </div>
-    );
-}
-
-function ContrastDot(props) {
-    if (!props.hex) {
-        return ''
-    }
-
-    const style = {
-        height: "25px",
-        width: "25px",
-        backgroundColor: props.hex,
-        borderRadius: "50%",
-        borderColor: "transparent",
-        display: "inline-block"
-    };
-
-    return (
-        <button style={style}></button>
-    );
-}

@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const colorSchema = new Schema({
   name: {
     type: String,
-    maxlength: 55
+    maxlength: 30
   },
 
   hex: {
@@ -14,7 +14,7 @@ const colorSchema = new Schema({
     required: [true, "Must provide a valid 3 or 6 digit hex for the color!"],
     validate: {
       validator: function (val) {
-        return /^#([0-9a-f]{3}){1,2}$/.test(val);
+        return /^#([0-9a-f]{3}){1,2}$/i.test(val);
       }
     }
   },
@@ -23,9 +23,12 @@ const colorSchema = new Schema({
     required: [true, "Must provide a valid 3 or 6 digit hex for the contrast color!"],
     validate: {
       validator: function (val) {
-        return /^#([0-9a-f]{3}){1,2}$/.test(val);
+        return /^#([0-9a-f]{3}){1,2}$/i.test(val);
       }
     }
+  },
+  user: {
+    type: Schema.Types.ObjectId, ref: 'User'
   }
 });
 
