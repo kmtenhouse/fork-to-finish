@@ -1,0 +1,12 @@
+.credit-box {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.credit-box__img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+} 

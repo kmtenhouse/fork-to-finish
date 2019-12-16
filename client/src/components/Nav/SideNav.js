@@ -4,9 +4,7 @@ import ClearX from "./clear-24px.svg";
 import LoginLink from "./LoginLink";
 
 function SideNav(props) {
-    console.log(props);
     const classesToApply = "sidenav" + (props.open ? " sidenav--open" : '');
-    console.log(props.open ? "Sidenav is open" : "Sidenav is closed");
 
     return (
         <div className={classesToApply}>
