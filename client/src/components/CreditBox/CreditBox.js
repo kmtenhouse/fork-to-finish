@@ -1,26 +1,31 @@
 import React from "react";
 import "./creditbox.css";
 
-
-function CreditBox(props) {
-
+export function CreditBox(props) {
     const { image, alt, href, license, author } = props.attribution;
 
     return (
-
-        <figure className="credit-box">
+        <div className="credit-box">
             <a href={href}>
                 <img className="credit-box__img" src={image} alt={alt} />
             </a>
-            <figcaption>
-                <a href={href}>
-                    <p>{author}</p>
-                </a>
-                <p>Licensed via {license}</p>
-            </figcaption>
-        </figure>
+            <ul className="credit-box__info">
+                <li className="credit-box__item">
+                    <a href={href}>{author}</a>
+                </li>
 
+                <li className="credit-box__item">
+                    Licensed via {license}
+                </li>
+            </ul>
+        </div>
     );
 }
 
-export default CreditBox;
+export function CreditGallery(props) {
+    return (
+        <div className="credit-gallery">
+            {props.children}
+        </div>
+    );
+}

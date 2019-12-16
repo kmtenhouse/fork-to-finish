@@ -1,12 +1,45 @@
+.credit-gallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .credit-box {
-    border: 1px solid black;
+    margin: 0.5em 0.5em;    
+    border: 1px solid #696969;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    width: 300px;
+    margin: 0.5em auto;
+}
+
+.credit-box__item {
+    margin: 0.5em 0.5em;
+}
+
+.credit-box__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 .credit-box__img {
-    width: 150px;
-    height: 150px;
+    margin: 0 auto;
+    width: 300px;
+    height: 300px;
     object-fit: cover;
-} 
+}
+
+@media only screen and (min-width: 768px) {
+    .credit-box {
+        width: 250px;
+    }
+
+    .credit-box__img {
+        width: 250px;
+        height: 250px;
+    }
+}

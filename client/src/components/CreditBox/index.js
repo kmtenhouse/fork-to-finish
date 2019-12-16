@@ -1,1 +1,1 @@
-export { default } from "./CreditBox";
+export {CreditBox, CreditGallery} from "./CreditBox"

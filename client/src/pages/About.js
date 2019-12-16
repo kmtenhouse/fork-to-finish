@@ -1,6 +1,7 @@
 import React from "react";
 import "./page.css";
-import CreditBox from "../components/CreditBox";
+import { CreditGallery, CreditBox } from "../components/CreditBox/";
+
 
 function About(props) {
     const credits = [
@@ -38,13 +39,15 @@ function About(props) {
         }
     ];
 
-    return(
+    return (
         <div className="page">
             <h1 className="page__heading">About Palette Town</h1>
             <p>Palette Town is a brief demonstration of the MERN starter kit <a className="page__link" href="https://github.com/kmtenhouse/fork-to-finish">Fork to Finish</a>.
             </p>
             <h2 className="page__heading">Artwork Credits</h2>
-            {credits.map(attribution => <CreditBox attribution={attribution} key={attribution._id} /> )}
+            <CreditGallery>
+                {credits.map(attribution => <CreditBox attribution={attribution} key={attribution._id} />)}
+            </CreditGallery>
         </div>
     );
 }
