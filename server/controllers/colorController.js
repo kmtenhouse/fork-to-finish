@@ -35,7 +35,7 @@ module.exports = {
     },
     delete: async function (req, res, next) {
         try {
-            const deleteOperation = await Color.deleteOne(req.params.id);
+            const deleteOperation = await Color.deleteOne({_id: req.params.id, user: req.user._id });
             res.json(deleteOperation);
         }
         catch (err) {
