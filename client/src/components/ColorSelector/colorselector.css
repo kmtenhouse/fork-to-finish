@@ -1,0 +1,23 @@
+.color-select {
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+}
+
+.color-select__err {
+    color: #fbb040;
+}
+
+
+@media only screen and (min-width: 576px) {
+    .color-select {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .color-select__section {
+        padding: 0.5em 0.5em;
+    }
+}

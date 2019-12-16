@@ -11,7 +11,12 @@ module.exports = function () {
         // Use bluebird
         mongoose.Promise = Promise;
         return mongoose.connect(databaseRef,
-            { useNewUrlParser: true, useUnifiedTopology: true }
+            { 
+                useNewUrlParser: true, 
+                useUnifiedTopology: true,
+                useCreateIndex: true,
+                useFindAndModify: false
+            }
         );
     }
 

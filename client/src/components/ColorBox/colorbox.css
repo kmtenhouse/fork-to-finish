@@ -1,0 +1,47 @@
+.colorbox {
+    height: 100px;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.colorbox--anim:hover {
+    transform: scale(1.75);
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+}
+
+.colorbox__delete {
+    display: none;
+}
+
+.colorbox--anim:hover .colorbox__delete {
+    background-color: inherit;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    display: block;
+    top: 0;
+    right: 0;
+}
+
+.colorbox__info {
+    padding: 0;
+    margin: 0 auto;
+    border: 0;
+    list-style-type: none;
+    width: 100%;
+}
+
+.colorbox__item {
+    display: block;
+    text-align: center;
+    overflow-wrap: break-word;
+}

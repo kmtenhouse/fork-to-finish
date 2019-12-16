@@ -1,19 +1,27 @@
+/* Import packages */
 import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Route,
-  Link,
-  Switch,
-  Redirect,
-  withRouter
+  Switch
 } from 'react-router-dom'
-
-import Home from "./pages/Home";
 import axios from "axios";
+
+/* Import context for auth */
 import { UserProvider, UserConsumer } from "./context/userContext";
 
-// Note: In development, we want a couple routes to direct to the backend for ouath flow
-const baseURL = (process.env.NODE_ENV === "development" ? "http://localhost:4000" : '');
+/* Import pages */
+import Home from "./pages/Home";
+import About from "./pages/About";
+import NotFound from './pages/NotFound';
+import Dashboard from "./pages/Dashboard";
+
+/* Import components */
+import Nav from "./components/Nav";
+import Container from "./components/Container";
+
+/* Import css */
+import "./App.css";
 
 class App extends Component {
   constructor(props) {
@@ -24,7 +32,18 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const result = await axios.get("/auth/whoami").catch((err) => { console.log(err) });
+    try {
+      this.checkLoginState();
+    }
+    catch(err) {
+      console.log("Error checking log in status!");
+      console.log(err);
+    }
+
+  }
+
+  checkLoginState = async () => {
+    const result = await axios.get("/auth/whoami");
     this.setState({ user: result.data });
   }
 
@@ -32,36 +51,25 @@ class App extends Component {
     return (
       <UserProvider>
         <Router>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/home">Home</Link>
-                </li>
-                <li>
-                  <Link to="/about">About</Link>
-                </li>
-                <li>
-                  <UserConsumer>
-                    {(value) => (value.loggedIn ? <a href={`${baseURL}/auth/logout`}>Log Out</a> : <a href={`${baseURL}/auth/google`}>Log In</a>)}
-                  </UserConsumer>
-                </li>
-              </ul>
-            </nav>
-
+          <Nav />
+          <Container>
             <Switch>
               <Route exact path="/home">
-                <Home title="Home page" />
+                <UserConsumer>
+                  {(value) => (value.loggedIn ? <Dashboard /> : <Home />)}
+                </UserConsumer>
               </Route>
               <Route exact path="/about">
                 <About />
               </Route>
               <Route exact path="/">
-                <Home title="Home page" />
+                <UserConsumer>
+                  {(value) => (value.loggedIn ? <Dashboard /> : <Home />)}
+                </UserConsumer>
               </Route>
               <Route component={NotFound} />
             </Switch>
-          </div>
+          </Container>
         </Router>
       </UserProvider>
     );
@@ -69,12 +77,5 @@ class App extends Component {
 
 }
 
-function About() {
-  return <h2>About</h2>;
-}
+export default App;
 
-function NotFound() {
-  return <h2>404</h2>;
-}
-
-export default App;  

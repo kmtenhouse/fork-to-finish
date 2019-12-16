@@ -9,9 +9,10 @@ module.exports = {
         next();
     },
     isAuthenticatedForJSON: function(req, res, next) {
-        if(!req.user) {
-            return res.sendStatus(403);
+        if(!req.user || !req.user._id) {
+            return res.status(401).json({ loggedIn: false });
         }
+        
         next();
     }
 };
