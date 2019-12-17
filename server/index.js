@@ -22,7 +22,7 @@ module.exports = function () {
 
   create = function (config) {
 
-    if(!config.redisURL) {
+    if (!config.redisURL) {
       throw new Error(`Invalid redis url provided! ${config.redisURL}`);
     }
 
@@ -82,16 +82,14 @@ module.exports = function () {
     const sessionStore = new RedisStore({ client: redisClient });
     //-------------------------------------------------------
 
-    const sessionConfig = session(
-      {
-        store: sessionStore,
-        secret: config.cookie_secret,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {},
-        name: "id" //make session cookie name generic so it's harder to tell what tech we are using
-      }
-    );
+    const sessionConfig = {
+      store: sessionStore,
+      secret: config.cookie_secret,
+      resave: false,
+      saveUninitialized: true,
+      cookie: {},
+      name: "id" //make session cookie name generic so it's harder to tell what tech we are using
+    };
 
     //In production, ensure we are using secure cookies for our session!
     if (app.get('env') === 'production') {
@@ -100,7 +98,7 @@ module.exports = function () {
       sessionConfig.cookie.httpOnly = true; // ensure front end js cannot touch cookie 
     }
 
-    app.use(sessionConfig);
+    app.use(session(sessionConfig));
 
     // Set request size limits
     // parse application/x-www-form-urlencoded
