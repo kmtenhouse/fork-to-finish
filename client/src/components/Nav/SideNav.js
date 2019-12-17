@@ -1,7 +1,9 @@
 import React from "react";
-import "./sidenav.css";
-import ClearX from "./clear-24px.svg";
+import { Link } from 'react-router-dom';
 import LoginLink from "./LoginLink";
+
+import ClearX from "./clear-24px.svg";
+import "./sidenav.css";
 
 function SideNav(props) {
     const classesToApply = "sidenav" + (props.open ? " sidenav--open" : '');
@@ -13,10 +15,10 @@ function SideNav(props) {
                     <img className="" src={ClearX} alt="Close Menu" onClick={props.closeNav} />
                 </li>
                 <li className="sidenav__item">
-                    <a href="/home" className="sidenav__link">Home</a>
+                    <Link to="/home" className="sidenav__link">Home</Link>
                 </li>
                 <li className="sidenav__item">
-                    <a href="/about" className="sidenav__link">About Palette Town</a>
+                    <Link to="/about" className="sidenav__link">About</Link>
                 </li>
                 <li className="sidenav__item">
                     <LoginLink className="sidenav__link" />
