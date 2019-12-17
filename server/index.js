@@ -141,6 +141,12 @@ module.exports = function () {
     const routes = require("./routes");
     app.use(routes);
 
+    //(IN PRODUCTION ONLY)
+    // Serve any static files
+    if (process.env.NODE_ENV === 'production') {
+      app.use(express.static(path.join(__dirname, '../client/build')))
+    }
+
     // Lastly, here's where we import any custom error handlers:
     const errorHandlers = require("./middleware/errorhandlers");
     for (let fn of errorHandlers) {
