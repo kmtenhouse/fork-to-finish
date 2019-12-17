@@ -6,7 +6,7 @@ import ClearX from "./clear-24px.svg";
 import "./sidenav.css";
 
 function SideNav(props) {
-    const classesToApply = "sidenav" + (props.open ? " sidenav--open" : '');
+    const classesToApply = "sidenav" + (props.open ? " sidenav--open" : ' sidenav--closed');
 
     return (
         <div className={classesToApply}>

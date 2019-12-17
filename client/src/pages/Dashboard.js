@@ -1,14 +1,19 @@
 /* Import packages */
 import React, { Component } from 'react'
+import axios from "axios";
+
+/* Import components */
 import ColorSelector from "../components/ColorSelector";
 import ColorPalette from "../components/ColorPalette";
+
+/* Import css */
 import "./page.css";
-import axios from "axios";
+import "./dashboard.css";
 
 class Dashboard extends Component {
     state = {
-        name: '',
-        hex: '#fff',
+        name: 'Snow White',
+        hex: '#ffffff',
         colors: [],
         saveErr: ''
     };
@@ -63,13 +68,13 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <div className="page">
+            <div className="page page--dashboard">
                 <div className="page__section">
-                    <h2 className="page__subhead">Add a Color</h2>
+                    <h1 className="page__heading">Add a Color</h1>
                     <ColorSelector onSave={this.addColor} saveErr={this.state.saveErr} />
                 </div>
                 <div className="page__section">
-                    <h2 className="page__subhead">Your Palette</h2>
+                    <h1 className="page__heading">Your Palette</h1>
                     <ColorPalette colors={this.state.colors} onDelete={this.deleteColor} />
                 </div>
             </div>

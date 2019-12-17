@@ -4,12 +4,68 @@
     flex-wrap: wrap;
 }
 
+.color-select__section--picker {
+    width: 100%;
+}
+
 .color-select__err {
     color: #fbb040;
 }
 
+.color-select__group {
+    margin-top: 1em;
+}
 
-@media only screen and (min-width: 576px) {
+.color-select__label { 
+    color: rgba(255, 255, 255, 1);
+    font-weight: 600;
+    font-family: 'Oregano', 'cursive';
+    font-size: 1.5em;
+    cursor: text;
+    transition: .25s ease;
+}
+
+.color-select__input {
+    display: block;
+    width: 80%;
+    border: none;
+    border-radius: 0;
+    color: white;
+    background-color: transparent;
+    font-size: 1.5em;
+    transition: .3s ease;
+    padding: 0.25em 0;
+}
+
+.color-select__input:focus ~ div {
+    background-color: white;
+    height: 4px;
+}
+
+.color-select__bar {
+    background: rgba(255, 255, 255, 0.5);
+    content: '';
+    width: 80%;
+    height: 3.5px;
+    transition: .3s ease;
+    position: relative;
+}
+
+.color-select__input:focus {
+    outline-color: white;
+}
+
+.color-select__button {
+    background-color: #69992f;
+    color: white;
+    padding: 0.5em 1.25em;
+    border: 0;
+    font-size: 1.25em;
+    margin: 1em 0;
+    border-radius: 0.25em;
+}
+
+@media only screen and (min-width: 500px) {
     .color-select {
         display: flex;
         flex-direction: row;
@@ -19,5 +75,56 @@
 
     .color-select__section {
         padding: 0.5em 0.5em;
+    }
+
+    .color-select__section--picker {
+        width: 250px;
+    }
+
+    .color-select__input {
+        width: 244px;
+        font-size: 1.5em;
+        padding: 0.25em 0.25em;
+    }
+    
+    .color-select__input:focus ~ div {
+        height: 4px;
+    }
+    
+    .color-select__bar {
+        width: 256px;
+        height: 3.5px;
+    }
+}
+
+@media only screen and (min-width: 798px) {
+    .color-select {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .color-select__section {
+        padding: 0.5em 0.5em;
+    }
+
+    .color-select__section--picker {
+        width: 300px;
+    }
+
+    .color-select__input {
+        width: 294px;
+        font-size: 1.5em;
+        padding: 0.25em 0.25em;
+    }
+    
+    .color-select__input:focus ~ div {
+        height: 4px;
+    }
+    
+    .color-select__bar {
+        width: 306px;
+        height: 3.5px;
     }
 }
