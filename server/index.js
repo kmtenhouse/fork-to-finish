@@ -63,7 +63,7 @@ module.exports = function () {
         scriptSrc: ["'self'", 'forktofinish.herokuapp.com'],   // define valid sources for script files 
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
         imgSrc: ["'self'", 'forktofinish.herokuapp.com'], // define valid souces of images
-        styleSrc: ["'self'", 'forktofinish.herokuapp.com'], // define valid sources for stylesheets 
+        styleSrc: ["'self'", 'forktofinish.herokuapp.com', 'unsafe-inline', 'fonts.googleapis.com', 'fonts.gstatic.com'], // define valid sources for stylesheets 
         fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com'] //define valid sources for fonts (example shown: Google Fonts)
       }
     }));
