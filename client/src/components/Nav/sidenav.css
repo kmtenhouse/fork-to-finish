@@ -45,6 +45,8 @@
     background-color: #00858e;
     color: white;
     border: none;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .sidenav__link {

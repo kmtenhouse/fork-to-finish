@@ -33,7 +33,11 @@
 .page__link--button {
     background-color: #69992f;
     color: white;
-    padding: 0.5em 0.5em;
+    padding: 0.5em 1.25em;
+    border: 0;
+    font-size: 1.25em;
+    margin: 1em 0;
+    border-radius: 0.25em;
 }
 
 .page a {
