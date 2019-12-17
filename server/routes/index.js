@@ -12,14 +12,13 @@ router.use("/api", apiRoutes);
 router.use("/auth", authRoutes);
 
 // CATCH ALL
-router.use((req, res) => {
-    //If no routes are hit in production, send our React app
-    if (process.env.NODE_ENV === "production") {
-        return res.sendFile(path.join(__dirname, "../client/build/index.html"));
-    }
-    //Otherwise, send a 404 (in development)
-    res.sendStatus(404);
-}
-);
+if (process.env.NODE_ENV === 'production') {
+    // Serve any static files
+    app.use(express.static(path.join(__dirname, 'client/build')))
+    // Handle React routing, return all requests to React app
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+    })
+  }
 
 module.exports = router;
