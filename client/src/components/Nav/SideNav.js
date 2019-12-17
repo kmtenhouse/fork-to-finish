@@ -15,10 +15,10 @@ function SideNav(props) {
                     <img className="" src={ClearX} alt="Close Menu" onClick={props.closeNav} />
                 </li>
                 <li className="sidenav__item">
-                    <Link to="/home" className="sidenav__link">Home</Link>
+                    <Link to="/home" className="sidenav__link" onClick={props.closeNav}>Home</Link>
                 </li>
                 <li className="sidenav__item">
-                    <Link to="/about" className="sidenav__link">About</Link>
+                    <Link to="/about" className="sidenav__link" onClick={props.closeNav}>About</Link>
                 </li>
                 <li className="sidenav__item">
                     <LoginLink className="sidenav__link" />

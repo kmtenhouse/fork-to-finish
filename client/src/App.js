@@ -26,25 +26,16 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: {}
-    };
-  }
-
-  async componentDidMount() {
-    try {
-      this.checkLoginState();
-    }
-    catch(err) {
-      console.log("Error checking log in status!");
-      console.log(err);
-    }
-
+    this.checkLoginState();
   }
 
   checkLoginState = async () => {
-    const result = await axios.get("/auth/whoami");
-    this.setState({ user: result.data });
+    try {
+      const result = await axios.get("/auth/whoami");
+      this.setState({ user: result.data });
+    } catch(err) {
+      console.log(err);
+    }
   }
 
   render() {

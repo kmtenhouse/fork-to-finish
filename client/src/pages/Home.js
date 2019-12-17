@@ -5,7 +5,6 @@ import "./home.css";
 // Note: In development, we want a couple routes to direct to the backend for ouath flow
 const baseURL = (process.env.NODE_ENV === "development" ? "http://localhost:4000" : '');
 class Home extends Component {
-
     render() {
         return (
             <div className="page page--home">
