@@ -10,9 +10,9 @@ try {
 
 const defaultConfig = {
   env: env,
-  hostname: "localhost",
-  port: 4000,
-  databaseRef: "mongodb://localhost/exampledb"
+  port: process.env.PORT,
+  databaseRef: process.env.MONGODB_URI,
+  redisURL: process.env.REDIS_URL
 };
 
 const mergedConfigs = Object.assign({}, defaultConfig, envConfig);

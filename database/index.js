@@ -7,7 +7,9 @@ module.exports = function () {
     let connect;
     connect = (config) => {
         const { databaseRef } = config;
-
+        if(!databaseRef) {
+            throw new Error(`Invalid db ref received! ${config.databaseRef}`);
+        }
         // Use bluebird
         mongoose.Promise = Promise;
         return mongoose.connect(databaseRef,

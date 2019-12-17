@@ -22,6 +22,10 @@ module.exports = function () {
 
   create = function (config) {
 
+    if(!config.redisURL) {
+      throw new Error(`Invalid redis url provided! ${config.redisURL}`);
+    }
+
     // Settings
     app.set("env", config.env);
     app.set("port", config.port);
