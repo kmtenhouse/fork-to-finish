@@ -63,15 +63,16 @@ module.exports = function () {
         scriptSrc: ["'self'", 'forktofinish.herokuapp.com'],   // define valid sources for script files 
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
         imgSrc: ["'self'", 'forktofinish.herokuapp.com'], // define valid souces of images
-        styleSrc: ["'self'", 'forktofinish.herokuapp.com', 'unsafe-inline', 'fonts.googleapis.com', 'fonts.gstatic.com'], // define valid sources for stylesheets 
+        styleSrc: ["'self'", 'forktofinish.herokuapp.com', "'unsafe-inline'", 'fonts.googleapis.com', 'fonts.gstatic.com'], // define valid sources for stylesheets 
         fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com'] //define valid sources for fonts (example shown: Google Fonts)
       }
     }));
 
-    // Set up static dir (if applicable) 
-    if (config.staticDir) {
-      app.use(express.static(config.staticDir));
-    }
+    //(IN PRODUCTION ONLY)
+    // Serve any static files
+    if (process.env.NODE_ENV === 'production') {
+      app.use(express.static(path.join(__dirname, '../client/build')))
+    } 
 
     // SESSION STORAGE SETUP
     //-------------------------------------------------------
@@ -140,12 +141,6 @@ module.exports = function () {
     // ====== Routing ======
     const routes = require("./routes");
     app.use(routes);
-
-    //(IN PRODUCTION ONLY)
-    // Serve any static files
-    if (process.env.NODE_ENV === 'production') {
-      app.use(express.static(path.join(__dirname, '../client/build')))
-    }
 
     // Lastly, here's where we import any custom error handlers:
     const errorHandlers = require("./middleware/errorhandlers");
