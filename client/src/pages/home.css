@@ -1,0 +1,60 @@
+.page--home {
+    padding: 0;
+    height: 100%;
+    flex: 1;
+}
+
+.page__section--home {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+
+.page__subsection--teaser {
+    padding: 0.5em 1em;
+}
+
+.page__subsection--splash {
+    flex: 1;
+    width: 100%;
+    background-image: url('/images/swatches_mobile.png');
+    background-size: cover;
+}
+
+.page__splash {
+   display: none;
+}
+
+@media only screen and (min-width: 639px) {
+    .page--home {
+        padding: 0.5em 1em;
+    }
+
+    .page__section--home {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .page__subsection--teaser {
+        max-width: 300px;
+    }
+    
+    .page__subsection--splash {
+        max-width: 90%;
+        width: auto;
+        flex: initial;
+        background-image: none;
+    }
+    
+    .page__splash {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+
+}

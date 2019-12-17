@@ -9,7 +9,6 @@ class UserProvider extends React.Component {
   checkLogIn = async () => {
     try {
       const result = await axios.get("/auth/whoami");
-      console.log(`Current Log In State: ${result.data.loggedIn}`);
       const logInState = (result.data && result.data.loggedIn === true ? true : false);
       this.setState({
         loggedIn: logInState

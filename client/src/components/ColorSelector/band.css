@@ -1,0 +1,28 @@
+.band {
+    margin-top: 1em;
+    height: 75px;
+}
+
+.band__info {
+    padding: 0;
+    height: 100%;
+    list-style-type: none;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.band__label {
+    text-align: center;
+}
+
+.band__label--name {
+    height: 1em;
+}
+
+@media only screen and (min-width: 576px) {
+    .band {
+        height: 100px;
+    }
+}
