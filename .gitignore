@@ -8,6 +8,7 @@ client/.env
 config/*
 !config/index.js
 !config/example.js
+!config/production.js
 
 # Misc local files to ignore
 archive/
