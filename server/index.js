@@ -60,10 +60,10 @@ module.exports = function () {
     app.use(csp({
       directives: {
         defaultSrc: ["'self'"],  // default value for all directives that are absent
-        scriptSrc: ["'self'"],   // define valid sources for script files 
+        scriptSrc: ["'self'", 'forktofinish.herokuapp.com'],   // define valid sources for script files 
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
-        imgSrc: ["'self'"], // define valid souces of images
-        styleSrc: ["'self'"], // define valid sources for stylesheets 
+        imgSrc: ["'self'", 'forktofinish.herokuapp.com'], // define valid souces of images
+        styleSrc: ["'self'", 'forktofinish.herokuapp.com'], // define valid sources for stylesheets 
         fontSrc: ['fonts.googleapis.com', 'fonts.gstatic.com'] //define valid sources for fonts (example shown: Google Fonts)
       }
     }));
