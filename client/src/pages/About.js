@@ -10,7 +10,7 @@ function About(props) {
             alt: "Freepik image: Architectural design by Studiogstock",
             href: "https://www.freepik.com/free-vector/architectural-work-design_3601119.htm",
             license: "Freepik Premium (Unlimited Usage)",
-            author: "Studiogstock",
+            author: "Design by Studiogstock",
             _id: 0
         },
         {
@@ -18,7 +18,7 @@ function About(props) {
             alt: "Freekpik image: Watercolor crimson and mint stain by Skliarova",
             href: "https://www.freepik.com/free-vector/watercolor-crimson-and-mint-stain_1672975.htm",
             license: "Freepik Premium (Unlimited Usage)",
-            author: "Skliarova",
+            author: "Watercolor by Skliarova",
             _id: 1
         },
         {
@@ -26,7 +26,7 @@ function About(props) {
             alt: "Google Icons: Material Icons",
             href: "https://material.io/resources/icons/?style=baseline",
             license: "Apache License 2.0",
-            author: "Google",
+            author: "Google Material Icons",
             _id: 2
         },
         {
@@ -34,7 +34,7 @@ function About(props) {
             alt: "Google Fonts: Oregano",
             href: "https://fonts.google.com/specimen/Oregano",
             license: "Open Font License",
-            author: "Google",
+            author: "Google Fonts",
             _id: 3
         }
     ];

@@ -6,7 +6,7 @@
 
 .credit-box {
     margin: 0.5em 0.5em;    
-    border: 1px solid #696969;
+    background-color: #1f2732;
     display: flex;
     flex-direction: column;
     width: 300px;
@@ -23,7 +23,6 @@
     justify-content: left;
     list-style-type: none;
     padding: 0;
-    margin: 0;
 }
 
 .credit-box__img {
@@ -33,13 +32,17 @@
     object-fit: cover;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 639px) {
+    .credit-gallery {
+        justify-content: flex-start;
+    }
+
     .credit-box {
-        width: 250px;
+        width: 240px;
     }
 
     .credit-box__img {
-        width: 250px;
-        height: 250px;
+        width: 240px;
+        height: 200px;
     }
 }
