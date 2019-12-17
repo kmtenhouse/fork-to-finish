@@ -60,7 +60,7 @@ module.exports = function () {
     app.use(csp({
       directives: {
         defaultSrc: ["'self'"],  // default value for all directives that are absent
-        scriptSrc: ["'self'", 'forktofinish.herokuapp.com', "'unsafe-inline"],   // define valid sources for script files 
+        scriptSrc: ["'self'", 'forktofinish.herokuapp.com', "'unsafe-inline'"],   // define valid sources for script files 
         frameAncestors: ["'none'"],  // helps prevent Clickjacking attacks
         imgSrc: ["'self'", 'forktofinish.herokuapp.com'], // define valid souces of images
         styleSrc: ["'self'", 'forktofinish.herokuapp.com', "'unsafe-inline'", 'fonts.googleapis.com', 'fonts.gstatic.com'], // define valid sources for stylesheets 
