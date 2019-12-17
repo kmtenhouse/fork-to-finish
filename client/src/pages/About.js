@@ -43,9 +43,10 @@ function About(props) {
         <div className="page">
             <h1 className="page__heading">About Palette Town</h1>
             <section className="page__section">
-                <h2 className="page__subhead">Overview</h2>
                 <p>Palette Town is a brief demonstration of the MERN starter kit <a className="page__link" href="https://github.com/kmtenhouse/fork-to-finish">Fork to Finish</a>. 
-            </p>
+                This example project demonstrates an application which uses both authentication and authorization to allow users to create and save custom collections of RGB colors.</p>
+                
+                <p>This demo does not retain any data about a user's identity aside from a unique number provided by Google. A small amount of data (a 'session cookie') is also stored on the user's machine in order to validate their authentication status.</p>
             </section>
             <section className="page__section">
                 <h2 className="page__subhead">Artwork Credits</h2>
